@@ -1,0 +1,31 @@
+# ===========================================================
+# robots.txt — Convertidor USD ⇄ COP · Hoteles Dorado Plaza
+# Qué hace: permite el rastreo de toda la herramienta y apunta al
+#           sitemap. Los bots de IA se permiten explícitamente para
+#           que la herramienta pueda ser citada por ChatGPT, Claude,
+#           Perplexity o Gemini.
+# ===========================================================
+
+User-agent: *
+Allow: /
+
+# Bots de IA — permitidos explícitamente
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+Sitemap: https://convertidor-dorado-plaza.pages.dev/sitemap.xml

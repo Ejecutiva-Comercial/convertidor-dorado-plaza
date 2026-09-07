@@ -1,0 +1,32 @@
+# Convertidor USD ⇄ COP · Hoteles Dorado Plaza
+
+> Herramienta web que convierte dólares estadounidenses a pesos colombianos y viceversa
+> usando la TRM oficial de Colombia. Publicada por Hoteles Dorado Plaza (Cartagena de
+> Indias y Barranquilla, Colombia) como instrumento de trabajo interno para sus áreas
+> ejecutiva, comercial, contable y administrativa. No está dirigida a huéspedes.
+
+## Páginas
+- [Convertidor (español)](https://convertidor-dorado-plaza.pages.dev/): calculadora USD ⇄ COP, equivalencias rápidas e historial de la tasa.
+- [Converter (English)](https://convertidor-dorado-plaza.pages.dev/en/): same tool in English.
+- [Política de privacidad](https://convertidor-dorado-plaza.pages.dev/privacidad.html)
+- [Política de cookies](https://convertidor-dorado-plaza.pages.dev/cookies.html)
+- [Términos y condiciones](https://convertidor-dorado-plaza.pages.dev/terminos.html)
+
+## Cómo funciona
+- Tasa principal: TRM oficial de Colombia (Superintendencia Financiera), vía el portal de Datos Abiertos del Gobierno de Colombia.
+- Tasa de respaldo: ExchangeRate-API, usada solo si la fuente oficial no responde.
+- La tasa se consulta en cada carga de la página. La TRM cambia una vez por día hábil.
+- Junto a la tasa se muestra la fecha completa de vigencia y la hora exacta de consulta en horario de Colombia (America/Bogota), que corre en vivo.
+- La herramienta es informativa: no ejecuta operaciones de cambio ni constituye una cotización en firme.
+- En español el conversor arranca en COP → USD y en inglés en USD → COP.
+- Interfaz en tema claro por defecto, con modo oscuro opcional.
+
+## Organización
+- Nombre: Hoteles Dorado Plaza
+- Sitio web: https://doradoplaza.com/
+- País: Colombia
+- Correo de contacto: web@doradoplaza.com (Ejecutiva Comercial)
+
+## Notas
+- Herramienta de uso interno, sin registro y sin publicidad.
+- Las páginas legales están en español, que es la versión con validez legal en Colombia.

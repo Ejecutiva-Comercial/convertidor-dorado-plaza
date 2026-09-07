@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<!-- ===========================================================
+     CONVERTIDOR USD ⇄ COP — Hoteles Dorado Plaza
+     Archivo: privacidad.html
+     Qué es: Cómo se tratan los datos personales en el convertidor de divisas de Hoteles Dorado Plaza, conforme a la Ley 1581 de 2012.
+     Función: cumplir con la normativa colombiana y dar transparencia
+              al visitante. Comparte diseño con el resto del sitio.
+     Depende de: css/styles.css y js/script.js (solo para el banner
+                 de cookies y el año del copyright).
+     =========================================================== -->
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Política de privacidad · Convertidor Hoteles Dorado Plaza</title>
+  <meta name="description" content="Cómo se tratan los datos personales en el convertidor de divisas de Hoteles Dorado Plaza, conforme a la Ley 1581 de 2012.">
+  <!-- noindex: las páginas legales no compiten en buscadores, pero sí
+       transmiten autoridad a través de sus enlaces (follow). -->
+  <meta name="robots" content="noindex, follow">
+  <!-- El color de la barra del navegador en móvil. Arranca en blanco
+       porque el tema claro es el primordial; el JS lo cambia si el
+       usuario activa el modo oscuro. -->
+  <meta name="theme-color" content="#FFFFFF" id="meta-tema">
+
+  <!-- Anti-parpadeo del tema. Ver la explicación larga en index.html:
+       es la única porción de JS embebido del proyecto y evita el
+       fogonazo blanco al abrir con el modo oscuro activado.
+       ⚠ La clave "dp_tema_v1" está también en CFG.TEMA_KEY de script.js. -->
+  <script>
+    (function () {
+      try {
+        if (localStorage.getItem("dp_tema_v1") === "oscuro") {
+          document.documentElement.setAttribute("data-tema", "oscuro");
+          var m = document.getElementById("meta-tema");
+          if (m) m.setAttribute("content", "#0E0E10");
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <link rel="icon" href="img/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="img/favicon.png">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Jost:wght@400;500;600&display=swap"
+        onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Jost:wght@400;500;600&display=swap">
+  </noscript>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+  <header class="cabecera">
+    <div class="contenedor cabecera__fila">
+      <a class="cabecera__logo" href="index.html" aria-label="Volver al convertidor">
+        <img src="img/logo-hoteles-dorado-plaza.webp" alt="Logo de Hoteles Dorado Plaza"
+             width="900" height="493">
+      </a>
+      <div class="acciones-cabecera">
+        <nav class="idioma" aria-label="Selector de idioma">
+          <a class="idioma__link" href="index.html" aria-current="true" data-idioma="es" lang="es"
+             aria-label="Ver el convertidor en español">ES</a>
+          <span class="idioma__sep" aria-hidden="true">|</span>
+          <a class="idioma__link" href="en/index.html" data-idioma="en" lang="en"
+             aria-label="Switch the converter to English">EN</a>
+        </nav>
+        <button class="btn-tema" id="btn-tema" type="button"
+                aria-pressed="false" aria-label="Activar el modo oscuro">
+          <svg class="btn-tema__luna" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"></path>
+          </svg>
+          <svg class="btn-tema__sol" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="contenido" class="texto">
+    <div class="contenedor">
+      <div class="texto__contenido">
+        <h1>Política de privacidad y tratamiento de datos personales</h1>
+        <p class="texto__meta">Última actualización: 4 de septiembre de 2026</p>
+
+        <p>
+          Esta política explica cómo se tratan los datos personales en el convertidor de
+          divisas de Hoteles Dorado Plaza, en cumplimiento de la Ley Estatutaria 1581 de 2012
+          y sus decretos reglamentarios (Decreto 1377 de 2013 y Decreto 1074 de 2015).
+        </p>
+
+        <h2>1. Responsable del tratamiento</h2>
+        <ul>
+          <li><strong>Razón social:</strong> <span class="marcador">{POR CONFIRMAR}</span></li>
+          <li><strong>NIT:</strong> <span class="marcador">{POR CONFIRMAR}</span></li>
+          <li><strong>Dirección:</strong> <span class="marcador">{POR CONFIRMAR}</span></li>
+          <li><strong>Correo de contacto:</strong> <a href="mailto:web@doradoplaza.com">web@doradoplaza.com</a> (Ejecutiva Comercial)</li>
+          <li><strong>Sitio web de la organización:</strong> <a href="https://doradoplaza.com/" target="_blank" rel="noopener">doradoplaza.com</a></li>
+        </ul>
+
+        <h2>2. Qué datos recogemos</h2>
+        <p>
+          Esta herramienta <strong>no tiene formularios ni registro</strong>: no pedimos ni
+          almacenamos nombre, correo, teléfono ni ningún dato que permita identificarte.
+        </p>
+        <p>Lo único que puede recogerse es información técnica y anónima de navegación:</p>
+        <ul>
+          <li>Páginas visitadas dentro de esta herramienta y tiempo de permanencia.</li>
+          <li>Tipo de dispositivo, navegador e idioma.</li>
+          <li>País o región aproximados, nunca la dirección exacta.</li>
+          <li>Dirección IP anonimizada por Google Analytics antes de ser almacenada.</li>
+        </ul>
+        <p>
+          Esta información <strong>solo se recoge si aceptas las cookies de analítica</strong>
+          en el aviso que aparece al entrar. Si las rechazas, no se recoge nada y la herramienta
+          funciona exactamente igual.
+        </p>
+
+        <h2>3. Para qué se usan</h2>
+        <ul>
+          <li>Saber con qué frecuencia se usa la herramienta y desde qué tipo de dispositivo.</li>
+          <li>Detectar fallos y mejorar el funcionamiento.</li>
+          <li>Decidir si vale la pena ampliarla con otras divisas.</li>
+        </ul>
+        <p>
+          No se usan para publicidad, no se venden y no se cruzan con datos de reservas ni de
+          huéspedes.
+        </p>
+
+        <h2>4. Datos guardados en tu propio dispositivo</h2>
+        <p>
+          Para que la herramienta funcione mejor, el navegador guarda localmente tu decisión
+          sobre las cookies, el idioma y el tema (claro u oscuro) que elegiste, y la última
+          tasa consultada (para poder mostrarte un valor si te quedas sin conexión). Esa información
+          <strong>no se envía a ningún servidor</strong>: vive solo en tu dispositivo y puedes
+          borrarla limpiando los datos del navegador.
+        </p>
+
+        <h2>5. Con quién se comparten</h2>
+        <p>
+          Con nadie, salvo los proveedores técnicos necesarios para que la herramienta funcione:
+        </p>
+        <ul>
+          <li><strong>Cloudflare Pages</strong> — alojamiento del sitio.</li>
+          <li><strong>Google Analytics</strong> — estadísticas de uso, solo si aceptas las cookies.</li>
+          <li><strong>Google Fonts</strong> — tipografías del sitio.</li>
+          <li><strong>Datos Abiertos Colombia</strong> y <strong>ExchangeRate-API</strong> — fuentes de la tasa de cambio. Se les consulta el valor del día; no se les envía ningún dato tuyo.</li>
+        </ul>
+
+        <h2>6. Cuánto tiempo se conservan</h2>
+        <p>
+          Las estadísticas anónimas de Google Analytics se conservan según la configuración de
+          la cuenta, con un máximo de 14 meses. Los datos guardados en tu navegador permanecen
+          hasta que los borres o hasta que caduquen (12 meses en el caso de la decisión sobre
+          cookies).
+        </p>
+
+        <h2>7. Tus derechos</h2>
+        <p>
+          Como titular de datos personales tienes derecho a conocer, actualizar, rectificar y
+          suprimir tus datos, y a revocar la autorización otorgada. Puedes ejercerlos
+          escribiendo a <a href="mailto:web@doradoplaza.com">web@doradoplaza.com</a>, indicando tu solicitud. Responderemos en los plazos que fija la
+          ley: quince (15) días hábiles para consultas y quince (15) días hábiles para reclamos,
+          prorrogables conforme a la norma.
+        </p>
+        <p>
+          Si consideras que tus derechos no fueron atendidos, puedes acudir a la
+          <strong>Superintendencia de Industria y Comercio (SIC)</strong>.
+        </p>
+
+        <h2>8. Menores de edad</h2>
+        <p>
+          Esta herramienta es de consulta general y no está dirigida específicamente a menores
+          de edad, ni recoge datos de identificación de ninguna persona.
+        </p>
+
+        <h2>9. Cambios en esta política</h2>
+        <p>
+          Si esta política cambia, se publicará la versión actualizada en esta misma página con
+          su nueva fecha.
+        </p>
+
+        <p class="texto__meta">
+          Los apartados marcados como <span class="marcador">{POR CONFIRMAR}</span> deben completarse con los datos reales de la
+          organización antes de publicar. Se recomienda que un abogado revise este texto antes
+          de su publicación definitiva.
+        </p>
+
+        <p><a href="index.html">← Volver al convertidor</a></p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="pie">
+    <div class="contenedor">
+      <div class="pie__grid">
+        <div>
+          <div class="pie__logo">
+            <img src="img/logo-hoteles-dorado-plaza.webp" alt="Logo de Hoteles Dorado Plaza"
+                 width="900" height="493" loading="lazy">
+          </div>
+          <p class="pie__texto">
+            Herramienta interna de consulta de la TRM oficial, para las áreas ejecutiva,
+            comercial, contable y administrativa de Hoteles Dorado Plaza.
+          </p>
+        </div>
+        <nav aria-labelledby="pie-hotel">
+          <h2 id="pie-hotel">Contacto</h2>
+          <ul class="pie__lista">
+            <li><a class="js-salida-hotel" href="https://doradoplaza.com/" target="_blank" rel="noopener">doradoplaza.com</a></li>
+            <li><a href="mailto:web@doradoplaza.com">web@doradoplaza.com</a></li>
+            <li><span class="pie__rol">Ejecutiva Comercial</span></li>
+          </ul>
+        </nav>
+        <nav aria-labelledby="pie-legal">
+          <h2 id="pie-legal">Legal</h2>
+          <ul class="pie__lista">
+            <li><a href="privacidad.html">Política de privacidad</a></li>
+            <li><a href="cookies.html">Política de cookies</a></li>
+            <li><a href="terminos.html">Términos y condiciones</a></li>
+            <li><button class="pie__boton js-config-cookies" type="button">Configuración de cookies</button></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="pie__legal">
+        <p>© <span id="anio">2026</span> Hoteles Dorado Plaza · Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <aside class="cookies" id="cookies" aria-hidden="true" aria-label="Aviso de cookies">
+    <p class="cookies__texto">
+      Usamos cookies de analítica para saber cómo se usa esta herramienta y mejorarla.
+      Puedes aceptarlas o rechazarlas: la conversión funciona igual en ambos casos.
+      Más detalles en la <a href="cookies.html">política de cookies</a>.
+    </p>
+    <div class="cookies__botones">
+      <button class="cookies__btn" id="cookies-rechazar" type="button">Rechazar</button>
+      <button class="cookies__btn cookies__btn--ok" id="cookies-aceptar" type="button">Aceptar</button>
+    </div>
+  </aside>
+
+  <script src="js/script.js" defer></script>
+</body>
+</html>

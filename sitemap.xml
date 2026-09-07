@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Sitemap del convertidor. Solo las dos versiones de la herramienta:
+     las páginas legales y la 404 llevan noindex y no van aquí.
+     El dominio es provisional: cambiar cuando JX confirme el definitivo. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://convertidor-dorado-plaza.pages.dev/</loc>
+    <lastmod>2026-09-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://convertidor-dorado-plaza.pages.dev/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://convertidor-dorado-plaza.pages.dev/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://convertidor-dorado-plaza.pages.dev/"/>
+  </url>
+  <url>
+    <loc>https://convertidor-dorado-plaza.pages.dev/en/</loc>
+    <lastmod>2026-09-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://convertidor-dorado-plaza.pages.dev/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://convertidor-dorado-plaza.pages.dev/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://convertidor-dorado-plaza.pages.dev/"/>
+  </url>
+</urlset>

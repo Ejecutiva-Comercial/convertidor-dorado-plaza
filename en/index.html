@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<!-- ===========================================================
+     CONVERTIDOR USD ⇄ COP — Hoteles Dorado Plaza
+     Archivo: en/index.html (versión en INGLÉS)
+     Qué es: herramienta de conversión de dólares estadounidenses a
+             pesos colombianos y viceversa, con la TRM oficial.
+     Para quién: las áreas EJECUTIVA, COMERCIAL, CONTABLE y
+             ADMINISTRATIVA del hotel. NO es una herramienta para
+             huéspedes: es un instrumento de trabajo interno.
+     Función: consultar la TRM del día para facturar, cotizar y
+              cuadrar cuentas. No es una página de venta y por eso no
+              lleva CTAs comerciales.
+     Sentido por defecto: en inglés arranca en USD → COP (quien entra
+             en inglés llega con dólares). En español arranca al revés.
+     Depende de: css/styles.css y js/script.js
+     Versión en español (prioritaria): ../index.html
+     =========================================================== -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- ===========================================================
+       SEO — título, descripción y canonical
+       Ojo: el dominio final está {POR CONFIRMAR}. Mientras tanto se
+       usa la URL provisional de Cloudflare Pages. Cuando JX tenga el
+       dominio, hay que cambiarlo aquí, en en/index.html, en las
+       páginas legales, en sitemap.xml, robots.txt y llms.txt.
+       =========================================================== -->
+  <title>US Dollar to Colombian Peso Converter | Hoteles Dorado Plaza</title>
+  <meta name="description" content="Check Colombia's official daily exchange rate (TRM) and convert US dollars to Colombian pesos. Internal tool by Hoteles Dorado Plaza for its executive, commercial and accounting teams.">
+  <link rel="canonical" href="https://convertidor-dorado-plaza.pages.dev/en/">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <meta name="author" content="Hoteles Dorado Plaza">
+  <!-- El color de la barra del navegador en móvil. Arranca en blanco
+       porque el tema claro es el primordial; el JS lo cambia si el
+       usuario activa el modo oscuro. -->
+  <meta name="theme-color" content="#FFFFFF" id="meta-tema">
+
+  <!-- ===========================================================
+       ANTI-PARPADEO DEL TEMA
+       Qué es: la ÚNICA porción de JavaScript embebida en el HTML de
+       todo el proyecto. Es una excepción deliberada a la regla de
+       "todo el JS va en js/script.js", y tiene un motivo concreto:
+
+       js/script.js se carga con defer, o sea que corre DESPUÉS de que
+       el navegador pinta la página. Si el usuario dejó activado el modo
+       oscuro, la página se pintaría primero en blanco y medio segundo
+       después saltaría a negro. Ese fogonazo blanco es muy molesto de
+       noche, que es justo cuando se usa el modo oscuro.
+
+       Esto se ejecuta antes de pintar nada y deja el tema ya puesto.
+       Por eso va aquí, es mínimo y no hace nada más.
+       ⚠ Si se cambia la clave "dp_tema_v1", cambiarla también en
+         CFG.TEMA_KEY de js/script.js.
+       =========================================================== -->
+  <script>
+    (function () {
+      try {
+        if (localStorage.getItem("dp_tema_v1") === "oscuro") {
+          document.documentElement.setAttribute("data-tema", "oscuro");
+          var m = document.getElementById("meta-tema");
+          if (m) m.setAttribute("content", "#0E0E10");
+        }
+      } catch (e) { /* modo incógnito: se queda en el tema claro */ }
+    })();
+  </script>
+
+  <!-- Idiomas: el x-default apunta al español porque es la versión prioritaria -->
+  <link rel="alternate" hreflang="es" href="https://convertidor-dorado-plaza.pages.dev/">
+  <link rel="alternate" hreflang="en" href="https://convertidor-dorado-plaza.pages.dev/en/">
+  <link rel="alternate" hreflang="x-default" href="https://convertidor-dorado-plaza.pages.dev/">
+  <link rel="sitemap" type="application/xml" href="../sitemap.xml">
+
+  <!-- Open Graph — vista previa al compartir en WhatsApp, Facebook, etc.
+       La URL de la imagen va ABSOLUTA: si es relativa, no se muestra. -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Hoteles Dorado Plaza">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="es_CO">
+  <meta property="og:title" content="US Dollar to Colombian Peso Converter | Hoteles Dorado Plaza">
+  <meta property="og:description" content="Colombia's official daily rate (TRM) and USD ⇄ COP conversion. Internal tool by Hoteles Dorado Plaza for its executive, commercial and accounting teams.">
+  <meta property="og:url" content="https://convertidor-dorado-plaza.pages.dev/en/">
+  <meta property="og:image" content="https://convertidor-dorado-plaza.pages.dev/img/og-convertidor-dolar-peso-dorado-plaza.webp">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="US dollar to Colombian peso converter by Hoteles Dorado Plaza">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="US Dollar to Colombian Peso Converter | Hoteles Dorado Plaza">
+  <meta name="twitter:description" content="Colombia's official daily rate (TRM) and USD ⇄ COP conversion for the administrative teams at Hoteles Dorado Plaza.">
+  <meta name="twitter:image" content="https://convertidor-dorado-plaza.pages.dev/img/og-convertidor-dolar-peso-dorado-plaza.webp">
+
+  <!-- Geo tags: la cadena opera en Cartagena y Barranquilla, Colombia -->
+  <meta name="geo.region" content="CO">
+  <meta name="geo.placename" content="Cartagena de Indias, Colombia">
+
+  <!-- Iconos. Única excepción a la regla WebP: ningún navegador
+       soporta favicons en WebP. -->
+  <link rel="icon" href="../img/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="../img/favicon.png">
+  <link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+  <link rel="manifest" href="../site.webmanifest">
+
+  <!-- Tipografías cargadas sin bloquear el render (preload + onload).
+       Jost para títulos y cifras (geométrica, del mismo aire que el
+       logo) e Inter para el texto corrido. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Jost:wght@400;500;600&display=swap"
+        onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Jost:wght@400;500;600&display=swap">
+  </noscript>
+
+  <link rel="stylesheet" href="../css/styles.css">
+
+  <!-- ===========================================================
+       JSON-LD — datos estructurados
+       Qué incluye: WebSite, la Organización (la cadena hotelera) y
+       WebApplication (esto es una herramienta, no una tienda; por eso
+       no lleva Product ni Offer).
+       Ojo: los datos marcados {POR CONFIRMAR} deben completarse antes
+       de publicar, nunca inventarse.
+       =========================================================== -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://convertidor-dorado-plaza.pages.dev/en/#website",
+        "url": "https://convertidor-dorado-plaza.pages.dev/en/",
+        "name": "USD ⇄ COP Converter · Hoteles Dorado Plaza",
+        "inLanguage": "en-US",
+        "publisher": { "@id": "https://convertidor-dorado-plaza.pages.dev/#organizacion" }
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://convertidor-dorado-plaza.pages.dev/#organizacion",
+        "name": "Hoteles Dorado Plaza",
+        "url": "https://doradoplaza.com/",
+        "logo": "https://convertidor-dorado-plaza.pages.dev/img/logo-hoteles-dorado-plaza.webp",
+        "areaServed": "CO",
+        "email": "web@doradoplaza.com",
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "Ejecutiva Comercial",
+          "email": "web@doradoplaza.com",
+          "areaServed": "CO",
+          "availableLanguage": ["es", "en"]
+        }
+      },
+      {
+        "@type": "WebApplication",
+        "@id": "https://convertidor-dorado-plaza.pages.dev/en/#app",
+        "name": "US dollar to Colombian peso converter",
+        "url": "https://convertidor-dorado-plaza.pages.dev/en/",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "All (web browser)",
+        "inLanguage": ["es-CO", "en-US"],
+        "isAccessibleForFree": true,
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "COP" },
+        "publisher": { "@id": "https://convertidor-dorado-plaza.pages.dev/#organizacion" }
+      }
+    ]
+  }
+  </script>
+</head>
+
+<body>
+  <!-- Skip link: primer elemento enfocable, para navegación por teclado -->
+  <a class="skip-link" href="#contenido">Skip to content</a>
+
+  <!-- ===========================================================
+       SECCIÓN: CABECERA
+       Qué es: barra fija con el logo del hotel y el selector ES | EN.
+       Función: identidad de marca y cambio de idioma manual.
+       Depende de: .cabecera en css/styles.css
+       =========================================================== -->
+  <header class="cabecera">
+    <div class="contenedor cabecera__fila">
+      <a class="cabecera__logo" href="index.html" aria-label="Hoteles Dorado Plaza converter, back to top">
+        <img src="../img/logo-hoteles-dorado-plaza.webp"
+             alt="Hoteles Dorado Plaza logo"
+             width="900" height="493" fetchpriority="high">
+      </a>
+
+      <!-- Los enlaces internos van en ruta RELATIVA (../index.html desde /en/)
+           y no en ruta absoluta (/, /en/). Así la web funciona igual abierta
+           desde una carpeta local, desde una subcarpeta del hosting o desde
+           la raíz del dominio. La URL "oficial" para buscadores la fija el
+           canonical del <head>, que sí es absoluta. -->
+      <div class="acciones-cabecera">
+        <nav class="idioma" aria-label="Language selector">
+          <a class="idioma__link" href="../index.html" data-idioma="es" lang="es"
+             aria-label="Ver esta página en español">ES</a>
+          <span class="idioma__sep" aria-hidden="true">|</span>
+          <a class="idioma__link" href="index.html" aria-current="page" data-idioma="en" lang="en"
+             aria-label="View this page in English">EN</a>
+        </nav>
+
+        <!-- Botón de tema. El aria-label y el aria-pressed los mantiene
+             al día js/script.js; aquí van con el valor del tema claro,
+             que es con el que siempre abre la web. -->
+        <button class="btn-tema" id="btn-tema" type="button"
+                aria-pressed="false" aria-label="Switch to dark mode">
+          <svg class="btn-tema__luna" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"></path>
+          </svg>
+          <svg class="btn-tema__sol" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="contenido">
+
+    <!-- ===========================================================
+         SECCIÓN: HERO
+         Qué es: título de la herramienta, explicación en una línea y
+                 la píldora con el estado de la tasa.
+         Función: que en dos segundos se entienda qué hace y con qué
+                  dato trabaja.
+         Depende de: .hero y .estado en css/styles.css; el texto de
+                     #estado-texto lo escribe js/script.js
+         =========================================================== -->
+    <section class="hero">
+      <div class="contenedor">
+        <span class="hero__marca">Hoteles Dorado Plaza</span>
+
+        <!-- ▼▼▼ ZONA EDITABLE · TEXTOS ▼▼▼
+             QUÉ CAMBIAR: solo el título (h1) y el párrafo de abajo.
+             CÓMO: cambia el texto que está entre > y < sin borrar las etiquetas.
+             LÍMITE: título máx. 45 caracteres; párrafo máx. 180 caracteres
+                     (más largo desacomoda el hero en pantallas de 380px).
+
+             ⚠ EL h1 DICE EL SENTIDO EN QUE ABRE ESTE IDIOMA.
+               En inglés abre en dólares → pesos, así que el h1 dice
+               "US dollars to Colombian pesos". En ../index.html abre al revés
+               y el h1 dice lo contrario. Los dos son correctos: NO igualarlos.
+               Si algún día se cambia el sentido de arranque (estado.sentido
+               en js/script.js), hay que cambiar también este título.
+
+             ⚠ SE REPITE EN: el <title>, la meta description y el og:title
+               del <head> de ESTE archivo, que aquí sí van en el mismo sentido.
+
+             NO TOCAR: class, span, em, ni nada fuera de esta zona.
+        -->
+        <h1><em>US dollars to Colombian pesos</em> converter</h1>
+        <p class="hero__bajada">
+          Internal tool for the executive, commercial, accounting and administrative
+          teams. Check the official daily rate (TRM) and convert amounts instantly.
+        </p>
+        <!-- ▲▲▲ FIN ZONA EDITABLE · TEXTOS ▲▲▲ -->
+
+        <!-- Píldora de estado: qué tasa se usa y de qué fecha es.
+             Empieza en "consultando" y el JS la completa al recibir el dato. -->
+        <p class="estado is-cargando" id="estado" role="status" aria-live="polite">
+          <span class="estado__punto" aria-hidden="true"></span>
+          <span id="estado-texto">Checking today's rate…</span>
+        </p>
+
+        <!-- Sello de consulta: fecha larga y hora exacta de Colombia, con el
+             reloj corriendo. Para el área contable es el respaldo de "a qué
+             hora exacta se consultó esta tasa" al adjuntarla a un soporte.
+             Lo rellena y lo refresca cada segundo js/script.js.
+             Ojo: la hora es SIEMPRE la de Colombia (America/Bogota), aunque
+             el computador esté configurado en otro país. -->
+        <p class="estado-hora">
+          <span id="hora-etiqueta"></span>
+          <span class="estado-hora__reloj" id="hora-reloj"></span>
+        </p>
+      </div>
+    </section>
+
+    <!-- ===========================================================
+         SECCIÓN: CONVERSOR
+         Qué es: la calculadora en sí — campo de monto, botón para
+                 invertir monedas y resultado grande.
+         Función: es la razón de existir de la página. Todo lo demás
+                  es apoyo.
+         Depende de: .tarjeta, .campo y .resultado en css/styles.css;
+                     toda la lógica está en js/script.js
+         Nota: el campo empieza deshabilitado y el JS lo habilita
+               cuando ya hay una tasa cargada, para que nadie escriba
+               sobre un resultado vacío.
+         =========================================================== -->
+    <section class="conversor" aria-labelledby="titulo-conversor">
+      <div class="contenedor">
+        <h2 id="titulo-conversor" class="sr-only">Currency calculator</h2>
+
+        <div class="tarjeta">
+          <!-- Campo de entrada.
+               ⚠ En inglés el conversor arranca en USD → COP y en español al
+               revés (COP → USD). No es un descuido: quien entra en inglés
+               llega con dólares; quien trabaja aquí piensa en pesos. El
+               estado inicial lo fija js/script.js leyendo el <html lang>,
+               así que si aquí se cambian las monedas hay que cambiarlo allá. -->
+          <div class="campo">
+            <label class="campo__etiqueta" for="monto" id="etiqueta-origen">Amount (US dollars)</label>
+            <div class="campo__caja">
+              <span class="campo__moneda" id="moneda-origen">
+                <span class="campo__bandera" aria-hidden="true">🇺🇸</span> USD
+              </span>
+              <input class="campo__input" id="monto" type="text" inputmode="decimal"
+                     value="100" placeholder="100" autocomplete="off" disabled
+                     aria-describedby="resultado-detalle">
+            </div>
+          </div>
+
+          <!-- Botón de invertir el sentido de la conversión -->
+          <div class="invertir-fila">
+            <button class="btn-invertir" id="btn-invertir" type="button"
+                    aria-label="Swap: convert the other way around">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M7 4v13M7 17l-3-3M7 17l3-3"></path>
+                <path d="M17 20V7M17 7l3 3M17 7l-3 3"></path>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Campo de salida (solo lectura visual: el valor sale abajo) -->
+          <div class="campo">
+            <span class="campo__etiqueta" id="etiqueta-destino">Equals (Colombian pesos)</span>
+            <div class="campo__caja">
+              <span class="campo__moneda" id="moneda-destino">
+                <span class="campo__bandera" aria-hidden="true">🇨🇴</span> COP
+              </span>
+              <output class="campo__input campo__salida" id="resultado" for="monto" aria-live="polite">—</output>
+            </div>
+          </div>
+
+          <!-- Resultado en grande + acción de copiar -->
+          <div class="resultado">
+            <p class="resultado__detalle" id="resultado-detalle"></p>
+            <div class="resultado__acciones">
+              <button class="btn-sec" id="btn-copiar" type="button" data-copiar="">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="9" y="9" width="12" height="12" rx="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                <span class="btn-sec__txt">Copy result</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Referencias inversas. El JS las rellena con la tasa vigente. -->
+        <p class="resultado__detalle referencias">
+          <span id="ref-usd"></span> · <span id="ref-cop"></span>
+        </p>
+      </div>
+    </section>
+
+    <!-- ===========================================================
+         SECCIÓN: EQUIVALENCIAS RÁPIDAS
+         Qué es: montos frecuentes ya convertidos.
+         Función: resolver de un vistazo los montos que más se repiten
+                  en el día a día administrativo, sin escribir nada.
+                  Cambia sola al invertir el sentido.
+         Depende de: #tabla-equivalencias, que rellena js/script.js
+         =========================================================== -->
+    <section class="bloque bloque--alt" aria-labelledby="titulo-equivalencias">
+      <div class="contenedor">
+        <div class="bloque__cabeza">
+          <h2 id="titulo-equivalencias">Quick conversions</h2>
+          <p>The amounts that come up most often, already calculated at today's rate.</p>
+        </div>
+        <ul class="equivalencias" id="tabla-equivalencias"></ul>
+      </div>
+    </section>
+
+    <!-- ===========================================================
+         SECCIÓN: HISTORIAL DE 7 DÍAS
+         Qué es: gráfico de línea y lista con los últimos valores.
+         Función: dar contexto — si el dólar viene subiendo o bajando.
+         Depende de: #historial-caja, #grafico-historial y
+                     #lista-historial; los dibuja js/script.js con los
+                     datos de la fuente oficial.
+         Ojo: si la fuente oficial no responde, aquí sale una nota y la
+              conversión de arriba sigue funcionando igual.
+         =========================================================== -->
+    <section class="bloque" aria-labelledby="titulo-historial">
+      <div class="contenedor">
+        <div class="bloque__cabeza">
+          <h2 id="titulo-historial">How it has moved in recent days</h2>
+          <p>Official TRM values recently published by Colombia's Financial Superintendency.</p>
+        </div>
+
+        <div class="historial__caja" id="historial-caja">
+          <div class="historial__grafico" id="grafico-historial"></div>
+          <ul class="historial__lista" id="lista-historial"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===========================================================
+         SECCIÓN: INFORMACIÓN
+         Qué es: cuatro tarjetas explicando la TRM, cada cuánto se
+                 consulta, el alcance de la herramienta y qué pasa si
+                 la fuente oficial no responde.
+         Función: transparencia y SEO real — este texto está escrito en
+                  el HTML, no inyectado por JavaScript.
+         Ojo: es la última sección de la página. Aquí abajo iba el
+              acordeón de preguntas frecuentes, retirado por decisión
+              de JX. No reponerlo sin que él lo pida.
+         =========================================================== -->
+    <section class="bloque bloque--alt" aria-labelledby="titulo-info">
+      <div class="contenedor">
+        <div class="bloque__cabeza">
+          <h2 id="titulo-info">Where this number comes from</h2>
+          <p>No fine print — here is exactly how the tool works.</p>
+        </div>
+
+        <div class="info">
+          <article class="info__tarjeta">
+            <h3>Colombia's official rate</h3>
+            <p>
+              We use the <strong>TRM</strong> (Tasa Representativa del Mercado), the official
+              exchange rate published by Colombia's Financial Superintendency. It is the
+              country's daily benchmark and the figure banks and companies use for invoicing.
+            </p>
+          </article>
+
+          <article class="info__tarjeta">
+            <h3>Checked on every visit</h3>
+            <p>
+              Every time you open this page the source is queried and the most recent published
+              value is shown, along with the date it took effect. The TRM changes once per
+              business day, so that is the freshest figure available.
+            </p>
+          </article>
+
+          <article class="info__tarjeta">
+            <h3>A reference, not a settlement</h3>
+            <p>
+              The TRM is the official benchmark for invoicing and for the day's accounting.
+              A real transaction at a bank or exchange office settles at that institution's
+              own rate plus its fees, so it can close at a different value.
+            </p>
+          </article>
+
+          <article class="info__tarjeta">
+            <h3>Always available</h3>
+            <p>
+              If the official source is unreachable at that moment, the tool falls back to a
+              market rate and tells you on screen. You will never see a figure without knowing
+              where it came from.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===========================================================
+       SECCIÓN: PIE DE PÁGINA
+       Qué es: enlace a la web del hotel, páginas legales, aviso de
+               copyright y crédito de la fuente de datos.
+       Función: cerrar el sitio con lo institucional y lo obligatorio.
+       Ojo: esta página NO lleva crédito de JX Company — JX lo pidió
+            expresamente para este proyecto.
+       =========================================================== -->
+  <footer class="pie">
+    <div class="contenedor">
+      <div class="pie__grid">
+
+        <div>
+          <div class="pie__logo">
+            <img src="../img/logo-hoteles-dorado-plaza.webp"
+                 alt="Hoteles Dorado Plaza logo"
+                 width="900" height="493" loading="lazy">
+          </div>
+          <p class="pie__texto">
+            Internal tool for checking Colombia's official exchange rate, for the executive,
+            commercial, accounting and administrative teams at Hoteles Dorado Plaza.
+          </p>
+        </div>
+
+        <!-- ▼▼▼ ZONA EDITABLE · CONTACTO ▼▼▼
+             QUÉ CAMBIAR: la dirección web del hotel y el correo de contacto.
+             CÓMO: cambia el texto entre > y <, y el href del enlace.
+             EJEMPLO: href="https://doradoplaza.com/" → href="https://otrodominio.com/"
+             LÍMITE: el correo debe ser uno real y atendido.
+             ⚠ SE REPITE EN: el JSON-LD "Organization" → "url" (dentro del <head>
+               de este archivo y de en/index.html), y en las tres páginas legales
+               (privacidad.html, cookies.html, terminos.html).
+               SI CAMBIA, HAY QUE CAMBIARLO EN TODOS.
+             NO TOCAR: class, li, ul, ni nada fuera de esta zona.
+        -->
+        <nav aria-labelledby="pie-hotel">
+          <h2 id="pie-hotel">Contact</h2>
+          <ul class="pie__lista">
+            <li>
+              <a class="js-salida-hotel" href="https://doradoplaza.com/" target="_blank" rel="noopener">
+                doradoplaza.com
+              </a>
+            </li>
+            <li>
+              <a href="mailto:web@doradoplaza.com">web@doradoplaza.com</a>
+            </li>
+            <li>
+              <span class="pie__rol" lang="es">Ejecutiva Comercial</span>
+            </li>
+          </ul>
+        </nav>
+        <!-- ▲▲▲ FIN ZONA EDITABLE · CONTACTO ▲▲▲ -->
+
+        <nav aria-labelledby="pie-legal">
+          <h2 id="pie-legal">Legal</h2>
+          <ul class="pie__lista">
+            <li><a href="../privacidad.html" lang="es">Política de privacidad</a></li>
+            <li><a href="../cookies.html" lang="es">Política de cookies</a></li>
+            <li><a href="../terminos.html" lang="es">Términos y condiciones</a></li>
+            <li><button class="pie__boton js-config-cookies" type="button">Cookie settings</button></li>
+          </ul>
+        </nav>
+      </div>
+
+      <div class="pie__legal">
+        <p>© <span id="anio">2026</span> Hoteles Dorado Plaza · All rights reserved.</p>
+        <p class="pie__fuente">
+          TRM data: <a href="https://www.datos.gov.co/" target="_blank" rel="noopener">Datos Abiertos Colombia</a>
+          (Financial Superintendency) · Fallback:
+          <a href="https://www.exchangerate-api.com" target="_blank" rel="noopener">Rates By Exchange Rate API</a>
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===========================================================
+       BANNER DE COOKIES
+       Qué es: aviso de consentimiento con Aceptar y Rechazar del
+               mismo peso visual.
+       Función: cumplir la Resolución 32.126 de 2022 de la SIC —
+                en Colombia el consentimiento debe ser previo y
+                expreso. Google Analytics NO se carga hasta aceptar.
+       Depende de: #cookies en css/styles.css y de la función
+                   iniciarCookies() de js/script.js
+       =========================================================== -->
+  <aside class="cookies" id="cookies" aria-hidden="true" aria-label="Cookie notice">
+    <p class="cookies__texto">
+      We use analytics cookies to understand how this tool is used and improve it.
+      You can accept or decline: the converter works exactly the same either way.
+      Details in our <a href="../cookies.html" lang="es">cookie policy</a> (in Spanish).
+    </p>
+    <div class="cookies__botones">
+      <button class="cookies__btn" id="cookies-rechazar" type="button">Decline</button>
+      <button class="cookies__btn cookies__btn--ok" id="cookies-aceptar" type="button">Accept</button>
+    </div>
+  </aside>
+
+  <script src="../js/script.js" defer></script>
+</body>
+</html>

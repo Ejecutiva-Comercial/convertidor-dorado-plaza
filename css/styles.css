@@ -1,0 +1,866 @@
+/* ===========================================================
+   CONVERTIDOR USD ⇄ COP — Hoteles Dorado Plaza
+   Archivo: css/styles.css
+   Qué contiene: TODO el CSS del proyecto (no hay estilos embebidos
+                 en el HTML ni en el JS).
+   Relación con los demás archivos:
+     - index.html y en/index.html usan estas clases.
+     - 404.html y las páginas legales reutilizan el mismo sistema.
+     - js/script.js añade/quita clases (.is-open, .is-error, .is-stale…);
+       esas clases se definen aquí, no en el JS.
+   Paleta: sacada del logo oficial de Dorado Plaza (degradado dorado).
+           Sin neón, sin glows, sin degradados morados: acabado premium
+           y serio.
+   Temas: DOS. El claro (blanco + dorado) es el primordial y es con el
+          que abre siempre la web. El oscuro es opcional, se activa con
+          el botón de la cabecera y se recuerda en el navegador.
+   =========================================================== */
+
+/* ===========================================================
+   VARIABLES — la fuente única de verdad del diseño
+   Qué hace: define colores, tipografías, escalas, radios y sombras.
+   Ojo: cualquier cosa nueva que se agregue al proyecto usa ESTAS
+        variables. Nunca meter un hex suelto en el resto del archivo.
+
+   DOS TEMAS
+   ---------
+   El tema CLARO (blanco + dorado del logo) es el primordial: es el que
+   se ve siempre al entrar a la web. El tema OSCURO es opcional y se
+   activa con el botón de la cabecera.
+
+   Cómo funciona: el tema claro vive en :root, así que es el que manda
+   por defecto. El oscuro solo redefine los colores dentro del bloque
+   [data-tema="oscuro"], que el JS pone en la etiqueta <html>.
+
+   ⚠ A propósito NO se usa @media (prefers-color-scheme): aunque el
+   sistema del visitante esté en modo oscuro, la web abre en blanco.
+   Es una decisión de marca de JX, no un descuido.
+
+   ⚠ Regla al agregar colores: si un color tiene que verse distinto en
+   cada tema, se define en LOS DOS bloques. Nunca dejar un color con
+   una sola definición dentro de [data-tema="oscuro"].
+   =========================================================== */
+:root {
+  /* --- Marca en tema CLARO ---
+     Sobre blanco el dorado del logo (#C9A84C) no alcanza contraste
+     para leerse, así que el dorado de TEXTO es una versión más honda
+     del mismo color. El dorado claro se reserva para lo decorativo. */
+  --oro-claro:   #E8C86A;   /* alto del degradado, solo decorativo */
+  --oro:         #B08D2E;   /* dorado principal legible sobre blanco */
+  --oro-hondo:   #6E4E14;   /* bajo del degradado; bordes y detalles */
+  /* Dorado de TEXTO. Está medido contra los CUATRO fondos del tema
+     (página, franja alterna, tarjeta e input): el peor caso es la
+     franja alterna y ahí da 4.7:1, por encima del mínimo de 4.5. */
+  --oro-texto:   #866616;
+  --oro-tenue:   rgba(176, 141, 46, .13); /* fondos y bordes muy suaves */
+  /* Degradado dorado de los títulos y del resultado grande. En claro va
+     de medio a hondo para que la cifra se lea. Al ser texto grande el
+     mínimo es 3:1; el peor caso aquí da 3.17:1. */
+  --grad-oro-1:  #A88121;
+  --grad-oro-2:  #6E4E14;
+  --sobre-oro:   #241B06;   /* texto encima de un relleno dorado */
+
+  /* --- Neutros en tema CLARO (blancos cálidos, nunca azulados) ---
+     Ojo con el par --fondo / --superficie: el fondo NO es blanco puro,
+     es un blanco cálido apenas teñido, y las tarjetas SÍ son blanco
+     puro. Si los dos fueran #FFFFFF la tarjeta del conversor quedaría
+     invisible: solo se vería por el borde de 1px. Con esta diferencia
+     mínima la tarjeta "flota" sin necesidad de sombras marcadas. */
+  --fondo:       #FCFAF5;   /* fondo general: blanco cálido */
+  --fondo-alt:   #F5F0E4;   /* franjas alternas, para dar ritmo */
+  --superficie:  #FFFFFF;   /* tarjetas y cajas: blanco puro, elevado */
+  --superficie-2:#F7F3EA;   /* inputs y elementos internos: hundidos */
+  --borde:       #E7DFCC;   /* bordes sutiles, con un punto de dorado */
+  --texto:       #17140F;   /* texto principal (17:1) */
+  --texto-suave: #5A5348;   /* texto secundario y ayudas (7.4:1) */
+  --texto-tenue: #6E675C;   /* legales y notas al pie (5.4:1) */
+  --cabecera:    rgba(252, 250, 245, .88); /* barra superior translúcida */
+
+  /* --- Estados (usados en avisos, nunca como decoración) --- */
+  --ok:      #2E7D4F;
+  --alerta:  #9A6B12;
+  --error:   #B03A32;
+
+  /* --- Textura de fondo: dos halos dorados casi imperceptibles --- */
+  --halo-1:  rgba(201, 168, 76, .16);
+  --halo-2:  rgba(201, 168, 76, .11);
+
+  /* --- Tipografías: máximo 2 familias --- */
+  --font-titulo: "Jost", "Trebuchet MS", system-ui, sans-serif;
+  --font-texto:  "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  /* Tabular: números de ancho fijo para que el resultado no "baile"
+     mientras el visitante escribe. Detalle de acabado importante. */
+  --font-num: "Jost", ui-monospace, "SF Mono", monospace;
+
+  /* --- Escala de tamaños (fluida con clamp: escala sola de 380px a TV) --- */
+  --t-display: clamp(2rem, 1.2rem + 3.4vw, 3.4rem);
+  --t-h2:      clamp(1.35rem, 1.05rem + 1.3vw, 1.95rem);
+  --t-h3:      clamp(1.05rem, .95rem + .5vw, 1.25rem);
+  --t-base:    1rem;
+  --t-chico:   .875rem;
+  --t-mini:    .78rem;
+  --t-resultado: clamp(1.9rem, 1.1rem + 3.6vw, 3.1rem);
+
+  /* --- Radios, sombras y espaciados --- */
+  --r-chico:  8px;
+  --r-medio:  14px;
+  --r-grande: 22px;
+  /* Sombras del tema claro: sobre blanco una sombra negra fuerte ensucia.
+     Van en marrón muy diluido, del mismo palo que el dorado. */
+  --sombra:      0 1px 2px rgba(35,28,10,.06), 0 8px 24px rgba(35,28,10,.07);
+  --sombra-alta: 0 2px 6px rgba(35,28,10,.08), 0 18px 48px rgba(35,28,10,.11);
+  --gap:      1rem;
+  --gap-2:    1.5rem;
+  --seccion:  clamp(2.75rem, 1.8rem + 3.4vw, 4.75rem); /* padding vertical */
+  --ancho:    1120px;  /* ancho máximo del contenido en pantallas grandes */
+
+  --transicion: 180ms cubic-bezier(.4,0,.2,1);
+
+  /* Le dice al navegador de qué color pintar los controles nativos
+     (barras de scroll, menús desplegables). Sin esto, en tema oscuro
+     las barras de scroll se quedan blancas. */
+  color-scheme: light;
+}
+
+/* ===========================================================
+   TEMA OSCURO — opcional, se activa con el botón de la cabecera
+   Qué hace: redefine SOLO los colores. Tamaños, radios, espaciados
+   y tipografías son los mismos en los dos temas.
+   Cómo se activa: js/script.js pone data-tema="oscuro" en <html>.
+   Ojo: esta es la paleta original del proyecto, la que salió del logo
+        sobre fondo oscuro. No se perdió: pasó a ser la alternativa.
+   =========================================================== */
+[data-tema="oscuro"] {
+  /* Sobre negro el dorado sí se lee tal cual sale del logo. */
+  --oro-claro:   #E8C86A;
+  --oro:         #C9A84C;
+  --oro-hondo:   #8A5A22;
+  --oro-texto:   #E8C86A;   /* aquí el dorado de texto sí es el claro */
+  --oro-tenue:   rgba(201, 168, 76, .16);
+  --grad-oro-1:  #E8C86A;
+  --grad-oro-2:  #C9A84C;
+  --sobre-oro:   #14100A;
+
+  --fondo:       #0E0E10;
+  --fondo-alt:   #131315;
+  --superficie:  #1A1A1D;
+  --superficie-2:#212125;
+  --borde:       #2A2A2F;
+  --texto:       #F2EFE9;
+  --texto-suave: #A8A29A;
+  /* Aclarado respecto del #6F6A63 original: sobre negro daba 3.6:1 y no
+     llegaba al mínimo legible. Ahora cumple sobre los tres fondos del
+     tema (página, tarjeta e input). Importa porque de este color van el
+     reloj de consulta, los legales del pie y el placeholder. */
+  --texto-tenue: #8F8A81;
+  --cabecera:    rgba(14, 14, 16, .9);
+
+  --ok:      #6FBF8B;
+  --alerta:  #E0A94B;
+  --error:   #D9736B;
+
+  --halo-1:  rgba(201, 168, 76, .055);
+  --halo-2:  rgba(201, 168, 76, .04);
+
+  --sombra:      0 1px 2px rgba(0,0,0,.34), 0 8px 24px rgba(0,0,0,.28);
+  --sombra-alta: 0 2px 6px rgba(0,0,0,.4),  0 18px 48px rgba(0,0,0,.42);
+
+  color-scheme: dark;
+}
+
+/* ===========================================================
+   RESET Y BASE
+   Qué hace: normaliza el navegador y fija el fondo, el color y la
+   tipografía base de todo el documento.
+   =========================================================== */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;  /* evita que iOS agrande el texto solo */
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--fondo);
+  color: var(--texto);
+  font-family: var(--font-texto);
+  font-size: var(--t-base);
+  line-height: 1.65;
+  /* Textura muy tenue: dos halos dorados casi imperceptibles que evitan
+     que el fondo quede plano, sin caer en glows ni blobs de colores.
+     Funciona en los dos temas: en blanco da un tinte cálido de crema,
+     en oscuro levanta el negro. La intensidad la fija cada tema. */
+  background-image:
+    radial-gradient(900px 460px at 12% -8%,  var(--halo-1), transparent 62%),
+    radial-gradient(760px 420px at 92% 108%, var(--halo-2), transparent 62%);
+  background-attachment: fixed;
+  overflow-x: hidden;  /* red de seguridad contra scroll horizontal */
+  /* El cambio de tema se nota como una transición corta, no como un
+     parpadeo brusco. Mismo tiempo que el resto del sistema. */
+  transition: background-color var(--transicion), color var(--transicion);
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+a { color: var(--oro-texto); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+
+h1, h2, h3 {
+  font-family: var(--font-titulo);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -.01em;
+  margin: 0 0 .6em;
+}
+h1 { font-size: var(--t-display); }
+h2 { font-size: var(--t-h2); }
+h3 { font-size: var(--t-h3); }
+p  { margin: 0 0 1em; }
+
+/* Foco visible en todo lo enfocable: requisito de accesibilidad.
+   Sin esto, quien navega con teclado no sabe dónde está parado. */
+:focus-visible {
+  outline: 2px solid var(--oro-texto);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Contenedor central: limita el ancho en TV y da aire lateral en móvil */
+.contenedor {
+  width: 100%;
+  max-width: var(--ancho);
+  margin-inline: auto;
+  padding-inline: clamp(1rem, .55rem + 1.9vw, 2rem);
+}
+
+/* Texto solo para lectores de pantalla (etiquetas de formularios, avisos) */
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* Skip link: primer elemento enfocable de la página, salta al contenido */
+.skip-link {
+  position: absolute; left: 8px; top: -100px;
+  z-index: 200;
+  background: var(--oro); color: var(--sobre-oro);
+  font-weight: 700; padding: .7rem 1.1rem;
+  border-radius: var(--r-chico);
+  transition: top var(--transicion);
+}
+.skip-link:focus { top: 8px; }
+
+/* ===========================================================
+   CABECERA
+   Qué es: barra superior fija con el logo y el selector de idioma.
+   Función: identidad de marca siempre visible y cambio ES/EN a mano.
+   Depende de: js/script.js no la toca; es CSS puro.
+   =========================================================== */
+.cabecera {
+  position: sticky; top: 0; z-index: 60;
+  background: var(--cabecera);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--borde);
+  padding-top: env(safe-area-inset-top); /* respeta el notch del iPhone */
+}
+.cabecera__fila {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--gap);
+  min-height: 64px;
+}
+.cabecera__logo { display: flex; align-items: center; }
+.cabecera__logo img { width: 148px; height: auto; }
+
+/* Selector de idioma ES | EN — discreto, nunca compite con el logo */
+.idioma { display: flex; align-items: center; gap: 2px; }
+.idioma__link {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 48px; min-height: 48px;   /* táctil mínimo obligatorio */
+  font-family: var(--font-titulo);
+  font-size: var(--t-chico); font-weight: 600; letter-spacing: .08em;
+  color: var(--texto-suave); text-decoration: none;
+  border-radius: var(--r-chico);
+  transition: color var(--transicion), background var(--transicion);
+}
+/* Idioma activo. Se marcan los dos valores de aria-current a propósito:
+   "page" en el convertidor (esa SÍ es la página actual) y "true" en las
+   legales y la 404 (ahí solo indica el idioma en el que estás). */
+.idioma__link[aria-current="page"],
+.idioma__link[aria-current="true"] {
+  color: var(--oro-texto);
+  background: var(--oro-tenue);
+}
+.idioma__sep { color: var(--borde); }
+
+/* ===========================================================
+   BOTÓN DE TEMA (claro ⇄ oscuro)
+   Qué es: el botón redondo de la cabecera, al lado del selector de
+           idioma. Muestra una luna en tema claro (lo que vas a activar)
+           y un sol en tema oscuro.
+   Función: dar la alternativa oscura sin quitarle el protagonismo al
+            blanco, que es el tema con el que siempre abre la web.
+   Depende de: js/script.js pone data-tema en <html> y cambia el
+               aria-label y el aria-pressed del botón.
+   =========================================================== */
+.acciones-cabecera { display: flex; align-items: center; gap: .25rem; }
+
+.btn-tema {
+  width: 48px; height: 48px; flex-shrink: 0;   /* táctil mínimo */
+  display: grid; place-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  color: var(--texto-suave); cursor: pointer;
+  transition: color var(--transicion), background var(--transicion),
+              border-color var(--transicion);
+}
+.btn-tema svg { width: 20px; height: 20px; }
+/* Un solo botón con los dos iconos dentro: se muestra el que toca.
+   Así no hay que reconstruir el botón al cambiar de tema. */
+.btn-tema__luna { display: block; }
+.btn-tema__sol  { display: none; }
+[data-tema="oscuro"] .btn-tema__luna { display: none; }
+[data-tema="oscuro"] .btn-tema__sol  { display: block; }
+
+/* ===========================================================
+   HERO — presentación de la herramienta
+   Qué es: título, bajada y la píldora con el estado de la tasa.
+   Función: dejar claro en dos segundos qué hace esto y con qué dato.
+   =========================================================== */
+.hero { padding: calc(var(--seccion) * .85) 0 calc(var(--seccion) * .5); text-align: center; }
+.hero__marca {
+  display: inline-block;
+  font-family: var(--font-titulo);
+  font-size: var(--t-mini); font-weight: 600;
+  letter-spacing: .26em; text-transform: uppercase;
+  color: var(--oro-texto); margin-bottom: 1.1rem;
+}
+.hero h1 { max-width: 16ch; margin-inline: auto; }
+.hero h1 em {
+  font-style: normal;
+  background: linear-gradient(180deg, var(--grad-oro-1), var(--grad-oro-2));
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+}
+.hero__bajada {
+  max-width: 58ch; margin: 0 auto;
+  color: var(--texto-suave);
+  font-size: clamp(.95rem, .9rem + .3vw, 1.08rem);
+}
+
+/* ===========================================================
+   PÍLDORA DE ESTADO DE LA TASA
+   Qué es: el aviso "Tasa actualizada al …" con la fuente del dato.
+   Función: transparencia — el visitante ve siempre de dónde sale
+            el número y de qué fecha es.
+   Depende de: js/script.js escribe #estado-texto y cambia las clases
+               .is-cargando / .is-error / .is-stale / .is-respaldo.
+   =========================================================== */
+.estado {
+  display: inline-flex; align-items: center; gap: .6rem;
+  margin-top: 1.6rem; padding: .55rem 1rem;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: 999px;
+  font-size: var(--t-chico); color: var(--texto-suave);
+  text-align: left;
+}
+.estado__punto {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--texto-tenue); flex-shrink: 0;
+}
+.estado.is-ok       .estado__punto { background: var(--ok); }
+.estado.is-respaldo .estado__punto { background: var(--alerta); }
+.estado.is-stale    .estado__punto { background: var(--alerta); }
+.estado.is-error    .estado__punto { background: var(--error); }
+.estado.is-cargando .estado__punto { background: var(--texto-tenue); }
+
+/* Reloj de consulta: la fecha larga y la hora exacta de Colombia,
+   debajo de la píldora. El JS lo refresca cada segundo.
+   Va en tamaño mini y en color tenue a propósito: es un dato de
+   respaldo contable, no debe competir con el resultado. */
+.estado-hora {
+  margin: .7rem auto 0;
+  max-width: 54ch;   /* si no, en escritorio se estira de lado a lado */
+  font-size: var(--t-mini);
+  color: var(--texto-tenue);
+  font-variant-numeric: tabular-nums;
+}
+/* La hora en sí, con cifras de ancho fijo para que el segundero no
+   empuje el texto de al lado cada vez que cambia. */
+.estado-hora__reloj { font-family: var(--font-num); font-weight: 500; color: var(--texto-suave); }
+
+/* ===========================================================
+   CONVERSOR — el corazón de la herramienta
+   Qué es: tarjeta con los dos campos, el botón de invertir y el
+           resultado grande.
+   Función: es LA razón de existir de la página; por eso ocupa el
+            centro óptico y no compite con nada más.
+   Depende de: #monto, #resultado, #btn-invertir en el HTML y de las
+               funciones de conversión en js/script.js.
+   Responsive: 1 sola columna siempre; el botón de invertir se coloca
+               entre los dos campos y gira 90° en móvil.
+   =========================================================== */
+.conversor { padding-bottom: var(--seccion); }
+
+.tarjeta {
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--r-grande);
+  box-shadow: var(--sombra-alta);
+  padding: clamp(1.25rem, .9rem + 1.6vw, 2.25rem);
+  max-width: 720px; margin-inline: auto;
+  /* Filete dorado superior: detalle fino de marca, no un borde brillante */
+  position: relative; overflow: hidden;
+}
+.tarjeta::before {
+  content: ""; position: absolute; inset: 0 0 auto 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--oro), transparent);
+  opacity: .55;
+}
+
+/* Fila de un campo: etiqueta arriba, moneda + input abajo */
+.campo { display: flex; flex-direction: column; gap: .45rem; }
+.campo__etiqueta {
+  font-family: var(--font-titulo);
+  font-size: var(--t-mini); font-weight: 600;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--texto-suave);
+}
+.campo__caja {
+  display: flex; align-items: stretch;
+  background: var(--superficie-2);
+  border: 1px solid var(--borde);
+  border-radius: var(--r-medio);
+  transition: border-color var(--transicion);
+}
+.campo__caja:focus-within { border-color: var(--oro); }
+.campo__moneda {
+  display: flex; align-items: center; gap: .5rem;
+  padding: 0 .9rem;
+  border-right: 1px solid var(--borde);
+  font-family: var(--font-titulo); font-weight: 600;
+  color: var(--oro-texto); white-space: nowrap;
+}
+.campo__bandera { font-size: 1.15rem; line-height: 1; }
+
+/* El input: font-size 16px mínimo obligatorio para que iOS no haga zoom */
+.campo__input {
+  flex: 1; min-width: 0;
+  background: transparent; border: 0; outline: none;
+  color: var(--texto);
+  font-family: var(--font-num);
+  font-size: clamp(1.25rem, 1rem + 1.1vw, 1.6rem);
+  font-weight: 500; font-variant-numeric: tabular-nums;
+  padding: .85rem .95rem;
+  min-height: 56px;   /* táctil cómodo */
+  width: 100%;
+}
+.campo__input::placeholder { color: var(--texto-tenue); }
+/* Oculta las flechitas del input number en todos los navegadores */
+.campo__input::-webkit-outer-spin-button,
+.campo__input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.campo__input[type="number"] { -moz-appearance: textfield; appearance: textfield; }
+
+/* Botón de invertir monedas: separador y acción a la vez */
+.invertir-fila {
+  display: flex; align-items: center; gap: .9rem;
+  margin: 1rem 0;
+}
+.invertir-fila::before,
+.invertir-fila::after {
+  content: ""; flex: 1; height: 1px; background: var(--borde);
+}
+.btn-invertir {
+  width: 52px; height: 52px; flex-shrink: 0;   /* ≥48px táctil */
+  display: grid; place-items: center;
+  background: var(--superficie-2);
+  border: 1px solid var(--borde);
+  border-radius: 50%;
+  color: var(--oro-texto); cursor: pointer;
+  transition: transform var(--transicion), border-color var(--transicion), background var(--transicion);
+}
+.btn-invertir svg { width: 22px; height: 22px; }
+.btn-invertir:active { transform: scale(.94); }
+
+/* Resultado grande. Es el foco visual de toda la página. */
+.resultado {
+  margin-top: 1.35rem; padding-top: 1.35rem;
+  border-top: 1px dashed var(--borde);
+  text-align: center;
+}
+/* Campo de salida: el número convertido. Es el foco visual de toda la
+   página, por eso va en dorado, más grande que el de entrada y con
+   cifras de ancho fijo para que no "baile" mientras se escribe.
+   Ojo: overflow-wrap evita que una cifra enorme rompa la tarjeta. */
+.campo__salida {
+  font-size: var(--t-resultado);
+  font-weight: 600; line-height: 1.15;
+  letter-spacing: -.015em;
+  background: linear-gradient(180deg, var(--grad-oro-1), var(--grad-oro-2));
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+  overflow-wrap: anywhere;
+  display: flex; align-items: center;
+  padding-block: .65rem;
+}
+/* Etiqueta de texto dentro del botón de copiar: la cambia el JS
+   ("Copiar resultado" ⇄ "Copiado"). Se declara para dejar constancia
+   de que es un punto de anclaje del JavaScript. */
+.btn-sec__txt { display: inline-block; }
+.resultado__detalle {
+  margin: .5rem 0 0; font-size: var(--t-chico); color: var(--texto-suave);
+  font-variant-numeric: tabular-nums;
+}
+.resultado__acciones { display: flex; justify-content: center; margin-top: 1rem; }
+
+/* Botón secundario (copiar). Estilo sobrio, sin relleno de color. */
+.btn-sec {
+  display: inline-flex; align-items: center; gap: .5rem;
+  min-height: 48px; padding: .6rem 1.15rem;
+  background: transparent; color: var(--texto);
+  border: 1px solid var(--borde); border-radius: 999px;
+  font-family: var(--font-texto); font-size: var(--t-chico); font-weight: 500;
+  cursor: pointer;
+  transition: border-color var(--transicion), color var(--transicion), background var(--transicion);
+}
+.btn-sec svg { width: 16px; height: 16px; }
+.btn-sec.is-hecho { border-color: var(--ok); color: var(--ok); }
+
+/* Referencias inversas bajo el conversor (1 USD = … / 1 COP = …) */
+.referencias { text-align: center; margin-top: 1.25rem; }
+.dato-pendiente { color: var(--texto-tenue); }
+
+/* ===========================================================
+   EQUIVALENCIAS RÁPIDAS
+   Qué es: tabla de montos frecuentes ya convertidos.
+   Función: resuelve la consulta típica del huésped sin que tenga
+            que escribir nada.
+   Depende de: #tabla-equivalencias, que js/script.js rellena.
+   Responsive: 2 columnas en móvil, 4 desde 700px.
+   =========================================================== */
+.bloque { padding: var(--seccion) 0; border-top: 1px solid var(--borde); }
+.bloque--alt { background: var(--fondo-alt); }
+.bloque__cabeza { max-width: 62ch; margin: 0 auto 2rem; text-align: center; }
+.bloque__cabeza p { color: var(--texto-suave); margin-bottom: 0; }
+
+.equivalencias {
+  display: grid; gap: .75rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  list-style: none; margin: 0; padding: 0;
+}
+.equivalencia {
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--r-medio);
+  padding: .95rem 1rem;
+  text-align: center;
+}
+.equivalencia__origen {
+  font-family: var(--font-titulo); font-size: var(--t-chico);
+  color: var(--texto-suave); letter-spacing: .04em;
+}
+.equivalencia__destino {
+  font-family: var(--font-num); font-size: clamp(1rem, .9rem + .5vw, 1.2rem);
+  font-weight: 600; color: var(--oro-texto);
+  font-variant-numeric: tabular-nums; overflow-wrap: anywhere;
+}
+
+/* ===========================================================
+   HISTORIAL DE 7 DÍAS
+   Qué es: mini gráfico SVG + lista de los últimos valores.
+   Función: dar contexto — si la tasa viene subiendo o bajando.
+   Depende de: #grafico-historial y #lista-historial (los dibuja el JS).
+   Ojo: el SVG se genera con JS porque los datos vienen de la API;
+        el texto explicativo sí está en el HTML servido.
+   =========================================================== */
+.historial__caja {
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--r-grande);
+  padding: clamp(1rem, .8rem + 1vw, 1.75rem);
+  box-shadow: var(--sombra);
+}
+.historial__grafico { width: 100%; aspect-ratio: 16 / 6; min-height: 130px; }
+.historial__grafico svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.historial__linea { fill: none; stroke: var(--oro); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.historial__area  { fill: var(--oro-tenue); stroke: none; }
+.historial__punto { fill: var(--oro-texto); }
+
+.historial__lista {
+  display: grid; gap: .35rem;
+  grid-template-columns: 1fr;
+  list-style: none; margin: 1.25rem 0 0; padding: 0;
+  font-size: var(--t-chico);
+}
+.historial__item {
+  display: flex; justify-content: space-between; gap: 1rem;
+  padding: .5rem .2rem; border-bottom: 1px solid var(--borde);
+}
+.historial__item:last-child { border-bottom: 0; }
+.historial__fecha { color: var(--texto-suave); }
+.historial__valor { font-family: var(--font-num); font-variant-numeric: tabular-nums; color: var(--texto); }
+
+/* Aviso dentro de una caja (cuando la API de historial no responde) */
+.nota {
+  margin: 0; padding: .9rem 1rem;
+  background: var(--superficie-2);
+  border: 1px solid var(--borde); border-left: 3px solid var(--alerta);
+  border-radius: var(--r-chico);
+  font-size: var(--t-chico); color: var(--texto-suave);
+}
+.nota:last-child { margin-bottom: 0; }
+
+/* ===========================================================
+   INFORMACIÓN
+   Qué es: tarjetas de texto que explican qué es la TRM y de dónde
+           sale el dato.
+   Función: SEO real (contenido escrito en el HTML) y confianza.
+   Ojo: aquí vivía también el acordeón de preguntas frecuentes.
+        Se retiró del proyecto por decisión de JX: en una herramienta
+        de un solo uso no aportaba y alargaba la página.
+   =========================================================== */
+.info { display: grid; gap: var(--gap); grid-template-columns: 1fr; }
+.info__tarjeta {
+  background: var(--superficie); border: 1px solid var(--borde);
+  border-radius: var(--r-medio); padding: 1.35rem;
+}
+.info__tarjeta h3 { color: var(--oro-texto); margin-bottom: .5rem; }
+.info__tarjeta p:last-child { margin-bottom: 0; }
+
+/* ===========================================================
+   PIE DE PÁGINA
+   Qué es: enlaces legales, enlace a la web del hotel, aviso de
+           copyright y acceso a la configuración de cookies.
+   Función: cerrar el sitio con lo obligatorio y lo institucional.
+   Ojo: esta página NO lleva crédito de JX Company — lo pidió JX
+        expresamente para este proyecto.
+   =========================================================== */
+/* El pie va sobre --fondo, no sobre --fondo-alt: al quitarse la sección
+   de preguntas frecuentes, la última sección de la página quedó siendo
+   una franja alterna (--fondo-alt) y las dos se fundían en una sola
+   mancha. Con este cambio el ritmo claro/oscuro se mantiene hasta abajo. */
+.pie {
+  border-top: 1px solid var(--borde);
+  background: var(--fondo);
+  padding: var(--seccion) 0 calc(1.75rem + env(safe-area-inset-bottom));
+  font-size: var(--t-chico);
+}
+.pie__grid {
+  display: grid; gap: var(--gap-2);
+  grid-template-columns: 1fr;
+  align-items: start;
+}
+.pie__logo img { width: 128px; }
+.pie__texto { color: var(--texto-suave); max-width: 46ch; margin-top: .9rem; }
+.pie h2 {
+  font-size: var(--t-mini); letter-spacing: .16em; text-transform: uppercase;
+  color: var(--texto-suave); margin-bottom: .8rem;
+}
+.pie__lista { list-style: none; margin: 0; padding: 0; display: grid; gap: .1rem; }
+.pie__lista a, .pie__boton {
+  display: inline-flex; align-items: center;
+  min-height: 44px; color: var(--texto-suave); text-decoration: none;
+  background: none; border: 0; padding: 0; cursor: pointer;
+  font: inherit; text-align: left;
+  transition: color var(--transicion);
+}
+/* Cargo de la persona de contacto, debajo del correo. No es un enlace,
+   así que no lleva el alto táctil de 44px de los de arriba. */
+.pie__rol { display: inline-block; color: var(--texto-tenue); padding: .3rem 0; }
+.pie__legal {
+  margin-top: var(--gap-2); padding-top: var(--gap-2);
+  border-top: 1px solid var(--borde);
+  color: var(--texto-tenue); text-align: center;
+}
+.pie__legal p { margin: 0 0 .35rem; }
+.pie__fuente a { color: var(--texto-suave); }
+
+/* ===========================================================
+   BANNER DE COOKIES
+   Qué es: aviso inferior con Aceptar y Rechazar del mismo peso.
+   Función: cumplir la Resolución 32.126 de 2022 de la SIC — en
+            Colombia el consentimiento debe ser previo y expreso.
+   Depende de: js/script.js (clase .is-visible y guardado en
+               localStorage). GA4 NO carga hasta que se acepte.
+   =========================================================== */
+.cookies {
+  position: fixed; z-index: 90;
+  left: 1rem; right: 1rem;
+  bottom: calc(1rem + env(safe-area-inset-bottom));
+  max-width: 620px; margin-inline: auto;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--r-grande);
+  box-shadow: var(--sombra-alta);
+  padding: 1.15rem;
+  transform: translateY(150%);
+  transition: transform 280ms cubic-bezier(.4,0,.2,1);
+  visibility: hidden;
+}
+.cookies.is-visible { transform: translateY(0); visibility: visible; }
+.cookies__texto { font-size: var(--t-chico); color: var(--texto-suave); margin-bottom: 1rem; }
+.cookies__botones { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
+/* Los dos botones tienen exactamente el mismo tamaño y peso visual:
+   la norma prohíbe esconder el "Rechazar". */
+.cookies__btn {
+  min-height: 48px; padding: .7rem 1rem;
+  border-radius: 999px; cursor: pointer;
+  font-family: var(--font-texto); font-size: var(--t-chico); font-weight: 600;
+  border: 1px solid var(--borde); background: var(--superficie-2); color: var(--texto);
+  transition: border-color var(--transicion), background var(--transicion);
+}
+.cookies__btn--ok { background: var(--oro); border-color: var(--oro); color: var(--sobre-oro); }
+
+/* ===========================================================
+   PÁGINAS DE TEXTO (legales y 404)
+   Qué es: layout de lectura para privacidad, cookies, términos y la
+           página de error, reutilizando el mismo sistema visual.
+   =========================================================== */
+.texto { padding: var(--seccion) 0; }
+.texto__contenido { max-width: 72ch; margin-inline: auto; }
+.texto__contenido h2 { margin-top: 2.2rem; }
+.texto__contenido h3 { margin-top: 1.6rem; color: var(--oro-texto); }
+.texto__contenido ul { padding-left: 1.15rem; color: var(--texto-suave); }
+.texto__contenido li { margin-bottom: .45rem; }
+.texto__meta { color: var(--texto-tenue); font-size: var(--t-chico); }
+.marcador { color: var(--alerta); font-weight: 600; }  /* resalta {POR CONFIRMAR} */
+
+.error404 { text-align: center; padding: calc(var(--seccion) * 1.3) 0; }
+.error404__codigo {
+  font-family: var(--font-titulo); font-size: clamp(4rem, 2rem + 12vw, 8rem);
+  font-weight: 600; line-height: 1; margin: 0;
+  background: linear-gradient(180deg, var(--grad-oro-1), var(--grad-oro-2));
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+}
+.btn-principal {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 52px; padding: .85rem 1.8rem; margin-top: 1.25rem;
+  background: linear-gradient(180deg, var(--oro-claro), var(--oro));
+  color: var(--sobre-oro); font-weight: 700; text-decoration: none;
+  border-radius: 999px; border: 0;
+  transition: filter var(--transicion), transform var(--transicion);
+}
+.btn-principal:active { transform: translateY(1px); }
+
+/* ===========================================================
+   HOVER — solo en dispositivos con puntero real
+   Qué hace: evita que en táctil los estados queden "pegados" después
+   de tocar un botón. Regla innegociable del estándar de JX.
+   =========================================================== */
+@media (hover: hover) {
+  a:hover { color: var(--oro-hondo); }
+  .idioma__link:hover { color: var(--texto); background: var(--superficie-2); }
+  .btn-tema:hover { color: var(--oro-texto); background: var(--superficie-2); }
+  .btn-invertir:hover { border-color: var(--oro); background: var(--superficie); }
+  .btn-sec:hover { border-color: var(--oro); color: var(--oro-texto); }
+  .btn-principal:hover { filter: brightness(1.06); }
+  .pie__lista a:hover, .pie__boton:hover { color: var(--oro-texto); }
+  .equivalencia:hover { border-color: var(--oro); }
+  .cookies__btn:hover { border-color: var(--oro); }
+}
+
+/* ===========================================================
+   RESPONSIVE — revisado en TODOS los breakpoints del estándar
+   600px · 700px · 768px · 900px · 1440px, y hacia abajo hasta 380px.
+   Qué se revisó: sin scroll horizontal, textos que no se cortan,
+   botones alcanzables con el pulgar y grids que reordenan bien.
+   =========================================================== */
+
+/* Móvil: la píldora de estado ahora lleva la fecha completa con día de
+   la semana, así que en pantallas estrechas ocupa 2 o 3 líneas. Con el
+   radio de 999px una caja de 3 líneas queda con dos semicírculos enormes
+   a los lados y se ve deforme. Por debajo de 600px se usa un radio
+   normal, que con varias líneas se lee como una tarjetita. */
+@media (max-width: 599px) {
+  .estado { border-radius: var(--r-medio); align-items: flex-start; }
+  .estado__punto { margin-top: .5rem; }   /* alinea el punto con la 1ª línea */
+}
+
+/* Tablet pequeña en adelante: equivalencias en 3 columnas */
+@media (min-width: 600px) {
+  .equivalencias { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .cookies__botones { grid-template-columns: auto auto; justify-content: flex-end; }
+  .cookies__btn { min-width: 150px; }
+}
+
+/* Tablet: información en 2 columnas y pie en 2 columnas */
+@media (min-width: 700px) {
+  .info { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .historial__lista { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 2rem; }
+  .pie__grid { grid-template-columns: 1.4fr 1fr 1fr; }
+}
+
+/* Escritorio: equivalencias en 4 columnas */
+@media (min-width: 900px) {
+  .equivalencias { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .cabecera__logo img { width: 170px; }
+}
+
+/* TV y pantallas muy grandes: el contenido no se estira sin control */
+@media (min-width: 1440px) {
+  :root { --ancho: 1200px; }
+}
+
+/* Teléfonos pequeños: la moneda pasa arriba del número para que el
+   input no quede espichado y el texto no se corte. */
+@media (max-width: 420px) {
+  .campo__caja { flex-direction: column; align-items: stretch; }
+  .campo__moneda {
+    border-right: 0; border-bottom: 1px solid var(--borde);
+    padding: .55rem .9rem; font-size: var(--t-chico);
+  }
+  .campo__input { padding: .7rem .9rem; }
+}
+
+/* Gama baja (Redmi, Samsung entry-level): se ajusta el aire lateral */
+@media (max-width: 380px) {
+  .tarjeta { padding: 1rem; border-radius: var(--r-medio); }
+  .equivalencias { gap: .5rem; }
+  .equivalencia { padding: .75rem .5rem; }
+  .cookies { left: .6rem; right: .6rem; padding: 1rem; }
+
+  /* Cabecera en pantallas de 320px (iPhone SE y gama baja antigua).
+     Con el logo a 148px, los dos idiomas a 48px y el botón de tema a
+     48px hacen falta 354px y no caben: el bloque de la derecha se
+     salía. Aquí se encoge lo justo para que quepa en 320px sin bajar
+     de 44px de alto táctil, que es el mínimo accesible. */
+  .cabecera__logo img { width: 116px; }
+  .idioma__link { min-width: 42px; min-height: 44px; }
+  .btn-tema { width: 44px; height: 44px; }
+  .cabecera__fila { gap: .5rem; }
+}
+
+/* ===========================================================
+   MOVIMIENTO REDUCIDO
+   Qué hace: respeta a quien pidió menos animación en su sistema.
+   Obligatorio por accesibilidad.
+   =========================================================== */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+  }
+}
+
+/* ===========================================================
+   IMPRESIÓN
+   Qué hace: si alguien imprime la conversión (un huésped en
+   recepción, por ejemplo), sale legible en blanco y negro.
+   =========================================================== */
+@media print {
+  /* Se imprime siempre en claro, aunque la pantalla esté en tema oscuro:
+     nadie quiere gastar un cartucho entero en un fondo negro. */
+  body { background: #fff !important; color: #000 !important; background-image: none !important; }
+  .cabecera, .cookies, .pie__lista, .btn-sec, .btn-invertir, .btn-tema { display: none; }
+  .tarjeta, .historial__caja { box-shadow: none; border: 1px solid #999; }
+  .campo__salida, .hero h1 em, .error404__codigo {
+    -webkit-text-fill-color: #000; color: #000; background: none;
+  }
+  .bloque--alt, .pie, .equivalencia, .info__tarjeta { background: #fff !important; }
+  .estado-hora { color: #333; }
+}
