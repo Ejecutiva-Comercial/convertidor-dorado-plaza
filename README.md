@@ -259,8 +259,9 @@ directorios de terceros.
 | `web@doradoplaza.com` | **Contacto comercial** (Ejecutiva Comercial) | pies de página y `terminos.html` |
 
 Poner el comercial en la política de privacidad desvía solicitudes legales a un buzón que no las
-tramita, y los plazos de respuesta (15 días hábiles) corren igual. Los derechos también se pueden
-ejercer por el **canal PQRS** de www.doradoplaza.com, y así está indicado en la política.
+tramita, y los plazos de respuesta corren igual: **10 días hábiles para consultas** (prorrogables
+5 más) y **15 para reclamos** (prorrogables 8 más). Los derechos también se pueden ejercer por el
+**canal PQRS** de www.doradoplaza.com, y así está indicado en la política.
 
 ---
 
@@ -319,10 +320,20 @@ registrado y se puede volver atrás.
 ## Aviso legal
 
 Los textos de `privacidad.html`, `cookies.html` y `terminos.html` se redactaron siguiendo el
-marco colombiano vigente (Ley 1581 de 2012, Decreto 1377 de 2013 y Resolución 32.126 de 2022 de
-la SIC), pero **no son asesoría legal**. Se recomienda que un abogado los revise antes de darlos
-por definitivos, junto con la ratificación de los datos de la sociedad que se menciona arriba.
+marco colombiano vigente (Ley 1581 de 2012, Decreto 1377 de 2013, Decreto 1074 de 2015 y
+Resolución 32.126 de 2022 de la SIC) y el **9 de septiembre de 2026 se alinearon con el documento
+legal oficial del propio hotel** («Términos y Condiciones de Uso, Política de Privacidad y
+Autorización para el Tratamiento de Datos Personales», versión 1.2). De ahí salen la
+identificación del responsable, el canal de habeas data, los plazos de respuesta y el domicilio
+contractual.
 
-Las tres páginas se actualizaron el 9 de septiembre de 2026 al retirarse la analítica: ahora
-declaran que la herramienta no recoge ningún dato personal. Si algún día vuelve la analítica,
-**los tres textos hay que reescribirlos otra vez**.
+Por eso ya no llevan la nota de «pendiente de revisión por un abogado»: no son un borrador, están
+calcados del marco que la empresa ya tiene publicado y revisado.
+
+⚠️ Dos cosas que sí conviene tener presentes:
+
+- Las tres páginas declaran que **la herramienta no recoge ningún dato personal**, porque no lo
+  hace. Si algún día vuelve la analítica, **los tres textos hay que reescribirlos**.
+- El documento oficial del hotel cubre sus portales de talento humano y la plataforma Syncrono,
+  que sí tratan datos sensibles. Esta herramienta es mucho más simple y por eso su política es
+  más corta: **no hereda las secciones que aquí no aplican**, y así debe seguir.

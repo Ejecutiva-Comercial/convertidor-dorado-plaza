@@ -463,6 +463,32 @@ primera versión de `privacidad.html` usaba el comercial tanto en el apartado de
 como en el de derechos del titular. Estaba mal y se corrigió. Ver la sección «PARA QUIÉN ES»
 para la regla de cuándo usar cada uno.
 
+### 📕 Fuente de verdad legal de este cliente
+
+JX aportó el documento **«Términos y Condiciones de Uso, Política de Privacidad y Autorización
+para el Tratamiento de Datos Personales», versión 1.2** (vigente desde el 16 dic 2025, revisado
+el 12 jun 2026), que el hotel publica en sus portales. **Cualquier texto legal de este cliente
+se alinea con ese documento, no se inventa.** De él salen:
+
+- La identificación del responsable, el domicilio y el área responsable.
+- El canal de habeas data (`syncrono@` + PQRS en `www.doradoplaza.com`).
+- **Los plazos de respuesta**, que estaban mal en la primera versión: son **10 días hábiles para
+  consultas** (prorrogables 5 más) y **15 para reclamos** (prorrogables 8 más). Antes se decía
+  15 para ambos, lo que además contradice el art. 14 de la Ley 1581.
+- El **domicilio contractual: Cartagena de Indias (Bolívar)**, ahora en `terminos.html`.
+- Que la queja ante la SIC procede **una vez agotado** el trámite ante el responsable.
+
+⚠️ **Lo que NO hay que copiar de ese documento.** Cubre los portales de talento humano y la
+plataforma interna Syncrono, que sí tratan datos sensibles, biométricos, de menores y de
+terceros, con transferencia internacional y decisiones automatizadas. **El convertidor no trata
+ningún dato personal**, así que sus legales son mucho más cortas a propósito. No arrastrar aquí
+secciones que no aplican: una política que declara tratamientos inexistentes es tan incorrecta
+como una que omite los que sí ocurren.
+
+**Se retiró de las tres páginas legales la nota «Se recomienda que un abogado revise este
+texto»** (lo pidió JX el 9 sep 2026). Ya no eran un borrador: están calcadas del marco legal que
+la propia empresa tiene publicado y revisado.
+
 ✅ **Resuelto el 5 sep 2026** — el correo de contacto ya no está pendiente:
 `web@doradoplaza.com` (Ejecutiva Comercial), puesto en los pies de las seis páginas, en el
 cuerpo de `privacidad.html` y `terminos.html`, en el JSON-LD y en `llms.txt`.
