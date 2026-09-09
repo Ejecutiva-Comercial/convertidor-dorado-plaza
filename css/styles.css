@@ -677,41 +677,110 @@ p  { margin: 0 0 1em; }
 .pie__legal p { margin: 0 0 .35rem; }
 .pie__fuente a { color: var(--texto-suave); }
 
+/* Aquí vivía el BANNER DE COOKIES (.cookies*). Se retiró el 9 sep 2026
+   junto con Google Analytics: sin analítica no se recoge ningún dato,
+   así que no hay consentimiento que pedir. Ver el bloque 7 de
+   js/script.js. Si algún día vuelve la analítica, el banner tiene que
+   volver con ella: son inseparables. */
+
 /* ===========================================================
-   BANNER DE COOKIES
-   Qué es: aviso inferior con Aceptar y Rechazar del mismo peso.
-   Función: cumplir la Resolución 32.126 de 2022 de la SIC — en
-            Colombia el consentimiento debe ser previo y expreso.
-   Depende de: js/script.js (clase .is-visible y guardado en
-               localStorage). GA4 NO carga hasta que se acepte.
+   AVISO DE ÚLTIMA ACTUALIZACIÓN
+   Qué es: el panel que entra por la derecha en cuanto llega la tasa,
+           con la fecha de vigencia, la hora exacta de consulta y una
+           línea que confirma que ese es el dato más reciente.
+   Función: que quien abre la herramienta para facturar tenga la
+            confirmación explícita de que no está mirando un dato viejo.
+   Se va solo a los 10 segundos (CFG.AVISO_MS en js/script.js).
+   Depende de: #aviso-tasa en index.html y en/index.html, y de
+               mostrarAviso() en js/script.js, que le pone .is-visible
+               y una de las clases de fuente (.is-ok / .is-respaldo /
+               .is-stale), igual que la píldora de estado.
+   Ojo: NO es una región aria-live. La píldora de estado ya anuncia el
+        mismo dato a los lectores de pantalla; si este panel también lo
+        anunciara, se oiría dos veces seguidas.
+   Colocación: en móvil entra desde arriba y ocupa el ancho; desde
+        700px se va a la derecha, que es donde lo pidió JX.
    =========================================================== */
-.cookies {
-  position: fixed; z-index: 90;
+.aviso-tasa {
+  position: fixed; z-index: 80;   /* por encima de la cabecera sticky (60) */
   left: 1rem; right: 1rem;
-  bottom: calc(1rem + env(safe-area-inset-bottom));
-  max-width: 620px; margin-inline: auto;
+  top: calc(env(safe-area-inset-top) + 64px + .75rem);  /* 64px = alto de la cabecera */
   background: var(--superficie);
   border: 1px solid var(--borde);
-  border-radius: var(--r-grande);
+  border-radius: var(--r-medio);
   box-shadow: var(--sombra-alta);
-  padding: 1.15rem;
-  transform: translateY(150%);
-  transition: transform 280ms cubic-bezier(.4,0,.2,1);
+  padding: .9rem 1rem;
+  overflow: hidden;   /* recorta la barra de cuenta atrás a las esquinas */
+  opacity: 0;
+  transform: translateY(-130%);
+  transition: transform 280ms cubic-bezier(.4,0,.2,1),
+              opacity   280ms cubic-bezier(.4,0,.2,1);
   visibility: hidden;
 }
-.cookies.is-visible { transform: translateY(0); visibility: visible; }
-.cookies__texto { font-size: var(--t-chico); color: var(--texto-suave); margin-bottom: 1rem; }
-.cookies__botones { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
-/* Los dos botones tienen exactamente el mismo tamaño y peso visual:
-   la norma prohíbe esconder el "Rechazar". */
-.cookies__btn {
-  min-height: 48px; padding: .7rem 1rem;
-  border-radius: 999px; cursor: pointer;
-  font-family: var(--font-texto); font-size: var(--t-chico); font-weight: 600;
-  border: 1px solid var(--borde); background: var(--superficie-2); color: var(--texto);
-  transition: border-color var(--transicion), background var(--transicion);
+.aviso-tasa.is-visible { opacity: 1; transform: translateY(0); visibility: visible; }
+
+/* Barra de cuenta atrás: el mismo filete dorado de la tarjeta del
+   conversor, encogiéndose durante los 10 segundos. No es decoración:
+   dice que el aviso se va a ir solo, para que nadie lo busque después. */
+.aviso-tasa__barra {
+  position: absolute; inset: 0 0 auto 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--oro), transparent);
+  opacity: .55;
+  transform-origin: left center;
 }
-.cookies__btn--ok { background: var(--oro); border-color: var(--oro); color: var(--sobre-oro); }
+.aviso-tasa.is-visible .aviso-tasa__barra { animation: aviso-cuenta 10s linear forwards; }
+/* Con el puntero encima o el foco dentro se congela, igual que el
+   temporizador de js/script.js. Si no, el aviso se cerraría en la cara
+   de quien lo está leyendo o tabulando. */
+.aviso-tasa.is-pausa .aviso-tasa__barra { animation-play-state: paused; }
+@keyframes aviso-cuenta { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+
+.aviso-tasa__fila { display: flex; align-items: flex-start; gap: .65rem; }
+/* Punto de color: mismo código que la píldora de estado, para que verde
+   siga significando "oficial" y ámbar "respaldo" en toda la página. */
+.aviso-tasa__punto {
+  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+  margin-top: .45rem;
+  background: var(--texto-tenue);
+}
+.aviso-tasa.is-ok       .aviso-tasa__punto { background: var(--ok); }
+.aviso-tasa.is-respaldo .aviso-tasa__punto { background: var(--alerta); }
+.aviso-tasa.is-stale    .aviso-tasa__punto { background: var(--alerta); }
+
+.aviso-tasa__cuerpo { flex: 1; min-width: 0; }
+.aviso-tasa__titulo {
+  margin: 0 0 .15rem;
+  font-family: var(--font-titulo);
+  font-size: var(--t-mini); font-weight: 600;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--oro-texto);
+}
+.aviso-tasa__fecha {
+  margin: 0; font-size: var(--t-chico); font-weight: 500;
+  color: var(--texto); line-height: 1.4;
+}
+.aviso-tasa__hora {
+  margin: .1rem 0 0; font-size: var(--t-chico);
+  color: var(--texto-suave);
+  font-family: var(--font-num); font-variant-numeric: tabular-nums;
+}
+.aviso-tasa__nota {
+  margin: .45rem 0 0; font-size: var(--t-mini);
+  color: var(--texto-tenue); line-height: 1.45;
+}
+
+/* Botón de cerrar: 44px de área táctil (el mínimo accesible) con el
+   icono pequeño dentro. El margen negativo recupera el aire visual sin
+   encoger la zona que se puede tocar. */
+.aviso-tasa__cerrar {
+  width: 44px; height: 44px; flex-shrink: 0;
+  margin: -.55rem -.55rem 0 0;
+  display: grid; place-items: center;
+  background: transparent; border: 0; border-radius: 50%;
+  color: var(--texto-tenue); cursor: pointer;
+  transition: color var(--transicion), background var(--transicion);
+}
+.aviso-tasa__cerrar svg { width: 14px; height: 14px; }
 
 /* ===========================================================
    PÁGINAS DE TEXTO (legales y 404)
@@ -759,7 +828,7 @@ p  { margin: 0 0 1em; }
   .btn-principal:hover { filter: brightness(1.06); }
   .pie__lista a:hover, .pie__boton:hover { color: var(--oro-texto); }
   .equivalencia:hover { border-color: var(--oro); }
-  .cookies__btn:hover { border-color: var(--oro); }
+  .aviso-tasa__cerrar:hover { color: var(--texto); background: var(--superficie-2); }
 }
 
 /* ===========================================================
@@ -782,8 +851,6 @@ p  { margin: 0 0 1em; }
 /* Tablet pequeña en adelante: equivalencias en 3 columnas */
 @media (min-width: 600px) {
   .equivalencias { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .cookies__botones { grid-template-columns: auto auto; justify-content: flex-end; }
-  .cookies__btn { min-width: 150px; }
 }
 
 /* Tablet: información en 2 columnas y pie en 2 columnas */
@@ -791,6 +858,15 @@ p  { margin: 0 0 1em; }
   .info { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .historial__lista { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 2rem; }
   .pie__grid { grid-template-columns: 1.4fr 1fr 1fr; }
+
+  /* El aviso se va a la derecha (donde lo pidió JX) y entra deslizándose
+     desde fuera de la pantalla, no desde arriba como en móvil. */
+  .aviso-tasa {
+    left: auto; right: 1.25rem;
+    width: 340px;
+    transform: translateX(120%);
+  }
+  .aviso-tasa.is-visible { transform: translateX(0); }
 }
 
 /* Escritorio: equivalencias en 4 columnas */
@@ -820,7 +896,6 @@ p  { margin: 0 0 1em; }
   .tarjeta { padding: 1rem; border-radius: var(--r-medio); }
   .equivalencias { gap: .5rem; }
   .equivalencia { padding: .75rem .5rem; }
-  .cookies { left: .6rem; right: .6rem; padding: 1rem; }
 
   /* Cabecera en pantallas de 320px (iPhone SE y gama baja antigua).
      Con el logo a 148px, los dos idiomas a 48px y el botón de tema a
@@ -831,6 +906,9 @@ p  { margin: 0 0 1em; }
   .idioma__link { min-width: 42px; min-height: 44px; }
   .btn-tema { width: 44px; height: 44px; }
   .cabecera__fila { gap: .5rem; }
+
+  /* El aviso se pega un poco más a los bordes para ganar ancho útil */
+  .aviso-tasa { left: .6rem; right: .6rem; padding: .8rem .85rem; }
 }
 
 /* ===========================================================
@@ -845,6 +923,11 @@ p  { margin: 0 0 1em; }
     animation-iteration-count: 1 !important;
     transition-duration: .001ms !important;
   }
+  /* La barra de cuenta atrás se retira del todo. Con la regla de arriba
+     su animación duraría .001ms, así que se vería desaparecer de golpe
+     y quedaría un filete a medias sin significado. El aviso sigue
+     cerrándose a los 10 s: ese temporizador está en el JS. */
+  .aviso-tasa__barra { display: none; }
 }
 
 /* ===========================================================
@@ -856,7 +939,8 @@ p  { margin: 0 0 1em; }
   /* Se imprime siempre en claro, aunque la pantalla esté en tema oscuro:
      nadie quiere gastar un cartucho entero en un fondo negro. */
   body { background: #fff !important; color: #000 !important; background-image: none !important; }
-  .cabecera, .cookies, .pie__lista, .btn-sec, .btn-invertir, .btn-tema { display: none; }
+  .cabecera, .pie__lista, .btn-sec, .btn-invertir, .btn-tema,
+  .aviso-tasa { display: none; }
   .tarjeta, .historial__caja { box-shadow: none; border: 1px solid #999; }
   .campo__salida, .hero h1 em, .error404__codigo {
     -webkit-text-fill-color: #000; color: #000; background: none;

@@ -68,11 +68,10 @@ convertidor-dorado-plaza/
 ├── privacidad.html     ← política de privacidad
 ├── cookies.html        ← política de cookies
 ├── terminos.html       ← términos y condiciones
-├── _headers            ← cache y seguridad (Cloudflare Pages)
-├── robots.txt          ← indexación
-├── sitemap.xml         ← mapa para buscadores
-├── llms.txt            ← mapa para asistentes de IA
+├── _headers            ← cache y seguridad (Cloudflare)
+├── robots.txt          ← indexación (ver la nota de abajo)
 ├── site.webmanifest    ← nombre e iconos si se guarda en el celular
+├── .gitignore          ← qué no se sube al repositorio
 ├── css/styles.css      ← todos los estilos
 ├── js/script.js        ← toda la lógica
 ├── img/                ← logo y og-image en WebP + favicons
@@ -105,43 +104,53 @@ Y abrir en el navegador: **http://localhost:8080**
 
 ---
 
-## Cómo publicarlo (Cloudflare Pages)
+## Cómo publicarlo
 
-1. Entrar a [dash.cloudflare.com](https://dash.cloudflare.com) → **Workers & Pages** → **Create** → **Pages**.
-2. **Upload assets** (o conectar el repositorio de GitHub, que es mejor porque cada cambio se
-   publica solo).
-3. Subir **el contenido de la carpeta**, no la carpeta comprimida.
-4. Cloudflare da una URL tipo `nombre.pages.dev`. Esa es la provisional.
-5. Cuando haya dominio propio: **Custom domains** → agregar el dominio → seguir los pasos de DNS.
+**Dirección actual:** <https://hotel.doradoplaza-convertidor.workers.dev/>
+**Repositorio:** <https://github.com/Ejecutiva-Comercial/convertidor-dorado-plaza>
 
-### ⚠️ Al poner el dominio definitivo hay que actualizarlo en 6 sitios
+El sitio vive en **Cloudflare Workers** (no en Pages) y se publica desde GitHub. Con el
+repositorio conectado a Cloudflare, el flujo del día a día es solo esto:
 
-Hoy todo apunta a `https://convertidor-dorado-plaza.pages.dev`. Buscar y reemplazar esa dirección en:
+```bash
+git add -A
+git commit -m "Descripción corta de lo que se cambió"
+git push
+```
+
+Cloudflare detecta el `push` y publica solo. No hay que subir archivos a mano.
+
+### ⚠️ Lo único delicado del despliegue: el archivo `_headers`
+
+`_headers` es lo que pone el control de caché, las cabeceras de seguridad y el `noindex`.
+Cloudflare Workers **sí** lo lee, pero solo si se cumplen dos condiciones:
+
+1. El proyecto se despliega como **Worker con static assets** (no como Worker de solo código).
+2. El archivo `_headers` está **dentro de la carpeta de assets** que declara la configuración.
+
+Si algo de eso falla, Cloudflare lo ignora **en silencio**: la web se ve perfecta, pero se
+pierden el `noindex`, el HSTS y el control de caché sin ningún aviso. Para comprobarlo después
+de publicar, desde una terminal:
+
+```bash
+curl -I https://hotel.doradoplaza-convertidor.workers.dev/
+```
+
+En la respuesta tienen que aparecer `x-robots-tag` y `x-content-type-options`. Si no están, el
+`_headers` no se está aplicando.
+
+### Si algún día cambia el dominio
+
+Buscar y reemplazar `hotel.doradoplaza-convertidor.workers.dev` en:
 
 1. `index.html` — `canonical`, `og:url`, `hreflang` y el JSON-LD.
 2. `en/index.html` — lo mismo.
-3. `sitemap.xml`
-4. `robots.txt` (la línea `Sitemap:`)
-5. `llms.txt`
-6. Y crear `functions/_middleware.js` para redirigir el `.pages.dev` viejo al dominio nuevo:
-
-```js
-export async function onRequest(context) {
-  const url = new URL(context.request.url);
-  if (url.hostname === "convertidor-dorado-plaza.pages.dev") {
-    url.hostname = "eldominionuevo.com";
-    return Response.redirect(url.toString(), 301);
-  }
-  return context.next();
-}
-```
-
-⚠️ **Nunca usar `_redirects` con `/*`** como regla general: causa un bucle infinito.
+3. `robots.txt` y el ejemplo de `curl` dentro de `_headers`.
 
 ### Otros hostings
 
-- **Netlify**: funciona igual, mismo formato del archivo `_headers`.
-- **GitHub Pages**: funciona, pero ignora `_headers` (no habría control de caché).
+- **Cloudflare Pages / Netlify**: funcionan igual, mismo formato del archivo `_headers`.
+- **GitHub Pages**: funciona, pero ignora `_headers` (se perderían caché, `noindex` y seguridad).
 - **Hostinger / Apache**: hay que traducir el `_headers` a un `.htaccess`.
 
 ---
@@ -189,66 +198,61 @@ la página de una vez. **No poner colores sueltos** en otras partes del archivo.
 
 ---
 
-## Google Analytics
+## Analítica: no hay, y es a propósito
 
-El código ya está puesto pero **desactivado**, porque falta el identificador.
+Esta herramienta **no lleva Google Analytics ni ninguna otra medición**. Se retiró el 9 de
+septiembre de 2026 por decisión de JX: siendo un instrumento interno para cuatro áreas del
+hotel, la analítica no aportaba y obligaba a pedir consentimiento de cookies.
 
-**Cómo activarlo:**
+La consecuencia buena es que **la web no recoge ningún dato**: no hay cookies, no hay
+identificadores, no hay seguimiento. Por eso tampoco hay aviso de cookies que aceptar — no hay
+nada que consentir.
 
-1. Entrar a [analytics.google.com](https://analytics.google.com) y crear una propiedad GA4.
-2. Copiar el *Measurement ID*, que tiene forma `G-XXXXXXXXXX`.
-3. Abrir `js/script.js`, buscar `GA_ID` (está dentro de `CFG`, en las primeras líneas) y
-   reemplazar `"{POR CONFIRMAR}"` por el ID entre comillas.
-4. Guardar y volver a publicar.
+Lo único que se guarda es almacenamiento local del navegador, que nunca sale del equipo:
+el idioma elegido, el tema claro u oscuro y la última tasa consultada.
 
-**Importante — cómo funciona el consentimiento:** el script de Google **no se carga** hasta que
-el visitante pulse "Aceptar" en el aviso de cookies. Esto no es opcional: la Resolución 32.126 de
-2022 de la SIC exige autorización previa y expresa en Colombia. No quitar esa condición.
-
-**Dónde ver el tráfico** (en lenguaje simple): dentro de Analytics, en *Informes → Adquisición*
-se ve cuánta gente entró y de dónde llegó (Google, un enlace, directo). En *Informes → Interacción*
-se ven las acciones que hace la gente dentro de la herramienta. Están medidas estas cuatro:
-
-| Evento | Qué significa |
-|---|---|
-| `tasa_cargada` | Se cargó la tasa y desde qué fuente (oficial, mercado o guardada) |
-| `invertir_monedas` | Alguien cambió el sentido de la conversión |
-| `copiar_resultado` | Alguien copió el resultado |
-| `clic_web_hotel` | Alguien salió hacia `doradoplaza.com` |
+> ⚠️ **Si algún día se quiere activar analítica, no basta con pegar el script.** Hay que volver
+> a montar el aviso de consentimiento con sus dos botones, guardar la decisión con caducidad y
+> reescribir `privacidad.html` y `cookies.html`. En Colombia, cargar analítica sin autorización
+> previa y expresa incumple la Resolución 32.126 de 2022 de la SIC. Pedirlo y se hace bien.
 
 ---
 
-## Google Search Console
+## Buscadores: la web está cerrada a propósito
 
-Al publicar (y de nuevo si cambia el dominio):
+Siendo una herramienta interna, JX decidió el 9 de septiembre de 2026 que **no aparezca en
+Google**. Está hecho así:
 
-1. Entrar a [search.google.com/search-console](https://search.google.com/search-console).
-2. Agregar la propiedad y verificarla.
-3. En *Sitemaps*, enviar `sitemap.xml`.
-4. **El archivo HTML de verificación que descarga Google no se borra nunca del proyecto.**
+- `noindex` en las seis páginas, y además la cabecera `X-Robots-Tag` desde `_headers`.
+- Se retiraron `sitemap.xml` y `llms.txt` (servían para lo contrario: para que la encontraran).
+- `robots.txt` bloquea a los bots de IA (ChatGPT, Claude, Perplexity y demás).
+
+**Por eso no hay que dar de alta el sitio en Google Search Console.** Y hay un detalle que
+parece un error y no lo es: `robots.txt` **no** bloquea a Google. Es deliberado. Un bloqueo ahí
+significa «no entres», no «no indexes»: si Google no entra, nunca lee el `noindex` y la
+dirección podría acabar apareciendo igual si alguien la enlaza desde fuera. Dejándole entrar,
+lee el `noindex` y la retira. Está explicado dentro del propio `robots.txt`.
+
+Si algún día se quiere abrir al público, hay que deshacer los tres puntos de arriba. Avisar.
 
 ---
 
-## Datos que faltan por confirmar
+## Datos de la empresa
 
-Están marcados en el código como `{POR CONFIRMAR}` y **no se inventó ninguno**:
+Ya no queda ningún `{POR CONFIRMAR}` en el proyecto. Los datos publicados son:
 
-| Dato | Dónde hay que ponerlo |
+| Dato | Valor |
 |---|---|
-| Dominio definitivo | 6 sitios (ver arriba) |
-| Razón social | `privacidad.html`, `terminos.html` |
-| NIT | `privacidad.html`, `terminos.html` |
-| Dirección | `privacidad.html`, `terminos.html` |
-| Measurement ID de GA4 | `js/script.js` → `CFG.GA_ID` |
+| Razón social | Hoteles Dorado Plaza Colombia S.A.S. |
+| NIT | 901.403.268-5 |
+| Dirección | Avenida San Martín (Carrera 2) N.º 4-41, Bocagrande, Cartagena de Indias |
+| Correo | web@doradoplaza.com (Ejecutiva Comercial) |
 
-✅ El **correo de contacto** ya está puesto: `web@doradoplaza.com` (Ejecutiva Comercial).
-
-### Una decisión que hay que tomar
-
-Siendo una herramienta **interna**, hoy está igualmente **abierta a Google**: cualquiera puede
-encontrarla buscando. Si se prefiere que solo la use el personal, hay que marcarla como no
-indexable y quitar el sitemap. Es un cambio de 10 minutos, pero **es una decisión del hotel**,
-no técnica, así que se dejó como estaba. Avisar si se quiere cerrar.
+⚠️ **Estos datos se tomaron de directorios públicos de registro mercantil, no de un certificado
+de existencia y representación.** Aparecen como responsable del tratamiento en la política de
+privacidad, así que **conviene que el hotel los ratifique antes de darlos por definitivos**. Dos
+cosas concretas que confirmar: que la matrícula mercantil esté vigente (un directorio la muestra
+como no renovada) y que la sede de Barranquilla no facture bajo otro NIT.
 
 ---
 
@@ -262,7 +266,10 @@ navegador. **Conviene abrirlo y revisar:**
 - [ ] Escribir `1,5` y `1.5` da lo mismo.
 - [ ] La tabla de equivalencias se llena y cambia al invertir.
 - [ ] El gráfico de 7 días se dibuja.
-- [ ] El aviso de cookies aparece, y "Rechazar" y "Aceptar" se ven del mismo tamaño.
+- [ ] **El aviso de última actualización** entra por la derecha, muestra la fecha de vigencia y
+      la hora exacta, y **se cierra solo a los 10 segundos**. Con el ratón encima no se cierra.
+- [ ] **No aparece ningún aviso de cookies** (ya no existe: no hay analítica que consentir).
+- [ ] El botón de tema cambia entre claro y oscuro, y al recargar recuerda el elegido.
 - [ ] En un teléfono pequeño (380 px) nada se sale ni se corta y no hay scroll horizontal.
 - [ ] El botón EN lleva a la versión en inglés y el ES devuelve al español.
 - [ ] Las tres páginas legales y la 404 abren bien y se ven con el mismo diseño.
@@ -305,5 +312,9 @@ registrado y se puede volver atrás.
 
 Los textos de `privacidad.html`, `cookies.html` y `terminos.html` se redactaron siguiendo el
 marco colombiano vigente (Ley 1581 de 2012, Decreto 1377 de 2013 y Resolución 32.126 de 2022 de
-la SIC), pero **no son asesoría legal**. Se recomienda que un abogado los revise antes de
-publicarlos, y completar los datos marcados como `{POR CONFIRMAR}`.
+la SIC), pero **no son asesoría legal**. Se recomienda que un abogado los revise antes de darlos
+por definitivos, junto con la ratificación de los datos de la sociedad que se menciona arriba.
+
+Las tres páginas se actualizaron el 9 de septiembre de 2026 al retirarse la analítica: ahora
+declaran que la herramienta no recoge ningún dato personal. Si algún día vuelve la analítica,
+**los tres textos hay que reescribirlos otra vez**.

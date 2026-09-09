@@ -1,0 +1,44 @@
+# ===========================================================
+# .gitignore — Convertidor USD ⇄ COP · Hoteles Dorado Plaza
+# Qué hace: dice qué NO se sube al repositorio.
+# Ojo: este proyecto es HTML, CSS y JS puros, sin compilación ni
+#      dependencias. Casi todo lo que hay en la carpeta SÍ va al repo:
+#      lo de aquí abajo es basura del sistema o cosas que no deben
+#      salir nunca del equipo.
+# ===========================================================
+
+# --- Basura de Windows y macOS ---
+Thumbs.db
+ehthumbs.db
+desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+._*
+
+# --- Editores ---
+.vscode/
+.idea/
+*.swp
+*~
+
+# --- Secretos: NUNCA subir esto a GitHub ---
+# El repositorio es de la empresa; una clave filtrada aquí queda en el
+# historial para siempre aunque se borre después.
+.env
+.env.*
+*.key
+*.pem
+.dev.vars
+
+# --- Cloudflare / Node, por si algún día se añade wrangler ---
+node_modules/
+.wrangler/
+.cloudflare/
+npm-debug.log*
+*.log
+
+# --- Copias de trabajo que no son parte del sitio ---
+*.bak
+*.old
+*.tmp
+/respaldo-retirados/

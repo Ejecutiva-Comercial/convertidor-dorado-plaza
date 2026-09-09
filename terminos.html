@@ -5,8 +5,8 @@
      Qué es: Condiciones de uso del convertidor de divisas de Hoteles Dorado Plaza y aviso de propiedad intelectual.
      Función: cumplir con la normativa colombiana y dar transparencia
               al visitante. Comparte diseño con el resto del sitio.
-     Depende de: css/styles.css y js/script.js (solo para el banner
-                 de cookies y el año del copyright).
+     Depende de: css/styles.css y js/script.js (solo para el botón de
+                 tema y el año del copyright).
      =========================================================== -->
 <html lang="es">
 <head>
@@ -14,8 +14,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Términos y condiciones · Convertidor Hoteles Dorado Plaza</title>
   <meta name="description" content="Condiciones de uso del convertidor de divisas de Hoteles Dorado Plaza y aviso de propiedad intelectual.">
-  <!-- noindex: las páginas legales no compiten en buscadores, pero sí
-       transmiten autoridad a través de sus enlaces (follow). -->
+  <!-- noindex: TODO el sitio va en noindex desde el 9 sep 2026, no solo
+       esta página. Es una herramienta interna del hotel y JX decidió que no
+       aparezca en buscadores. Se deja "follow" porque los enlaces de aquí
+       apuntan a páginas del propio sitio, que también van en noindex. -->
   <meta name="robots" content="noindex, follow">
   <!-- El color de la barra del navegador en móvil. Arranca en blanco
        porque el tema claro es el primordial; el JS lo cambia si el
@@ -90,13 +92,13 @@
     <div class="contenedor">
       <div class="texto__contenido">
         <h1>Términos y condiciones de uso</h1>
-        <p class="texto__meta">Última actualización: 4 de septiembre de 2026</p>
+        <p class="texto__meta">Última actualización: 9 de septiembre de 2026</p>
 
         <h2>1. Quién ofrece esta herramienta</h2>
         <ul>
-          <li><strong>Razón social:</strong> <span class="marcador">{POR CONFIRMAR}</span></li>
-          <li><strong>NIT:</strong> <span class="marcador">{POR CONFIRMAR}</span></li>
-          <li><strong>Dirección:</strong> <span class="marcador">{POR CONFIRMAR}</span></li>
+          <li><strong>Razón social:</strong> Hoteles Dorado Plaza Colombia S.A.S.</li>
+          <li><strong>NIT:</strong> 901.403.268-5</li>
+          <li><strong>Dirección:</strong> Avenida San Martín (Carrera 2) N.º 4-41, Bocagrande, Cartagena de Indias, Bolívar, Colombia</li>
           <li><strong>Correo de contacto:</strong> <a href="mailto:web@doradoplaza.com">web@doradoplaza.com</a> (Ejecutiva Comercial)</li>
         </ul>
 
@@ -140,7 +142,7 @@
         <h2>5. Propiedad intelectual</h2>
         <p>
           La marca <strong>Dorado Plaza</strong>, su logotipo, su identidad visual y el nombre
-          comercial son propiedad de <span class="marcador">{POR CONFIRMAR}</span> y están protegidos por la normativa colombiana de
+          comercial son propiedad de <strong>Hoteles Dorado Plaza Colombia S.A.S.</strong> y están protegidos por la normativa colombiana de
           propiedad industrial. Los textos, el diseño, el código y las imágenes de esta
           herramienta también están protegidos por derechos de autor.
         </p>
@@ -199,7 +201,7 @@
         <nav aria-labelledby="pie-hotel">
           <h2 id="pie-hotel">Contacto</h2>
           <ul class="pie__lista">
-            <li><a class="js-salida-hotel" href="https://doradoplaza.com/" target="_blank" rel="noopener">doradoplaza.com</a></li>
+            <li><a href="https://doradoplaza.com/" target="_blank" rel="noopener">doradoplaza.com</a></li>
             <li><a href="mailto:web@doradoplaza.com">web@doradoplaza.com</a></li>
             <li><span class="pie__rol">Ejecutiva Comercial</span></li>
           </ul>
@@ -210,7 +212,6 @@
             <li><a href="privacidad.html">Política de privacidad</a></li>
             <li><a href="cookies.html">Política de cookies</a></li>
             <li><a href="terminos.html">Términos y condiciones</a></li>
-            <li><button class="pie__boton js-config-cookies" type="button">Configuración de cookies</button></li>
           </ul>
         </nav>
       </div>
@@ -219,18 +220,6 @@
       </div>
     </div>
   </footer>
-
-  <aside class="cookies" id="cookies" aria-hidden="true" aria-label="Aviso de cookies">
-    <p class="cookies__texto">
-      Usamos cookies de analítica para saber cómo se usa esta herramienta y mejorarla.
-      Puedes aceptarlas o rechazarlas: la conversión funciona igual en ambos casos.
-      Más detalles en la <a href="cookies.html">política de cookies</a>.
-    </p>
-    <div class="cookies__botones">
-      <button class="cookies__btn" id="cookies-rechazar" type="button">Rechazar</button>
-      <button class="cookies__btn cookies__btn--ok" id="cookies-aceptar" type="button">Aceptar</button>
-    </div>
-  </aside>
 
   <script src="js/script.js" defer></script>
 </body>

@@ -1,31 +1,72 @@
 # ===========================================================
 # robots.txt — Convertidor USD ⇄ COP · Hoteles Dorado Plaza
-# Qué hace: permite el rastreo de toda la herramienta y apunta al
-#           sitemap. Los bots de IA se permiten explícitamente para
-#           que la herramienta pueda ser citada por ChatGPT, Claude,
-#           Perplexity o Gemini.
+#
+# Esta es una HERRAMIENTA INTERNA. Decisión de JX del 9 sep 2026:
+# no debe aparecer en buscadores ni ser citada por asistentes de IA.
+#
+# ⚠ POR QUÉ AQUÍ NO HAY "Disallow: /" PARA LOS BUSCADORES.
+# Parece lo lógico, pero conseguiría lo contrario. Un "Disallow" no
+# significa "no indexes": significa "no entres". Si Google no entra,
+# nunca llega a leer la etiqueta <meta name="robots" content="noindex">
+# de cada página, y si alguien enlaza la herramienta desde fuera, la URL
+# puede acabar apareciendo igual en los resultados, sin título ni
+# descripción, y sin forma limpia de quitarla.
+#
+# Lo correcto es al revés: se les DEJA entrar para que lean el noindex
+# y retiren la página. Ese noindex está en las seis páginas del sitio y
+# además se envía como cabecera X-Robots-Tag desde _headers.
+#
+# Con los bots de IA es distinto: no obedecen la etiqueta noindex, así
+# que robots.txt es la única herramienta que hay para ellos. A esos sí
+# se les cierra la puerta explícitamente.
 # ===========================================================
 
+# Buscadores: pueden entrar, precisamente para leer el noindex y retirar
+# las páginas del índice. No se les bloquea a propósito.
 User-agent: *
 Allow: /
 
-# Bots de IA — permitidos explícitamente
+# Bots de IA: aquí sí se bloquea, porque es el único mecanismo que
+# respetan. No queremos que una herramienta interna se use como fuente.
 User-agent: GPTBot
-Allow: /
+Disallow: /
+
+User-agent: OAI-SearchBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
 
 User-agent: ClaudeBot
-Allow: /
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
 
 User-agent: PerplexityBot
-Allow: /
+Disallow: /
 
 User-agent: Google-Extended
-Allow: /
-
-User-agent: Amazonbot
-Allow: /
+Disallow: /
 
 User-agent: Applebot-Extended
-Allow: /
+Disallow: /
 
-Sitemap: https://convertidor-dorado-plaza.pages.dev/sitemap.xml
+User-agent: Amazonbot
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: meta-externalagent
+Disallow: /
+
+# Aquí iba la línea "Sitemap:". Se retiró junto con sitemap.xml y
+# llms.txt el 9 sep 2026: un sitemap sirve para pedirle a Google que
+# indexe, que es justo lo contrario de lo que se quiere ahora.

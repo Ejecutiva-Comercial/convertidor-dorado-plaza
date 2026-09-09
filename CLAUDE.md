@@ -53,17 +53,21 @@ convertidor-dorado-plaza/
 ├── privacidad.html     ← política de privacidad (Ley 1581 de 2012)
 ├── cookies.html        ← política de cookies (Resolución 32.126 de 2022 SIC)
 ├── terminos.html       ← términos, condiciones y propiedad intelectual
-├── _headers            ← cache y cabeceras de seguridad (Cloudflare Pages)
-├── robots.txt          ← permite bots de IA + sitemap
-├── sitemap.xml         ← las dos versiones (ES y EN) con hreflang
-├── llms.txt            ← mapa del sitio para agentes de IA
+├── _headers            ← cache, seguridad y X-Robots-Tag (Cloudflare)
+├── robots.txt          ← deja pasar a buscadores (para que lean el noindex) y bloquea bots de IA
 ├── site.webmanifest    ← nombre, iconos y theme-color
+├── .gitignore          ← qué NO se sube al repositorio
 ├── css/styles.css      ← TODO el CSS
 ├── js/script.js        ← TODO el JS
 ├── img/                ← logo y og-image en WebP + favicons
 ├── CLAUDE.md           ← este archivo
 └── README.md           ← manual para JX y para el cliente
 ```
+
+**Retirados el 9 sep 2026** al pasar la web a `noindex`: `sitemap.xml` y `llms.txt`. Los dos
+servían para que buscadores y agentes de IA encontraran e indexaran la herramienta, que es justo
+lo contrario de lo que se quiere ahora que es de uso interno. Hay copia en el respaldo de la
+sesión por si algún día se revierte la decisión.
 
 ---
 
@@ -328,6 +332,78 @@ Repaso completo antes de publicar. Lo que se tocó y por qué:
 5. **El pie volvió a `--fondo`** y la última sección sigue siendo `bloque--alt`, así que el
    ritmo claro/oscuro se mantiene hasta abajo.
 
+### Tercera revisión (9 sep 2026) — aviso de última actualización y cierre de pendientes
+
+1. **Aviso de última actualización.** Lo pidió JX: un panel que entra **por la derecha** en
+   cuanto llega la tasa, con la **fecha de vigencia**, la **hora exacta de la consulta** y una
+   línea que confirma que ese es el dato más reciente. **Se cierra solo a los 10 segundos.**
+   - Archivos: `.aviso-tasa*` en `css/styles.css`, bloque 9 de `js/script.js`, y el `<aside
+     id="aviso-tasa">` de `index.html` y `en/index.html` (solo las páginas del conversor).
+   - **El texto cambia según la fuente**, igual que la píldora: con la TRM oficial dice «Estás
+     viendo la TRM más reciente publicada en Colombia»; con el respaldo de mercado o con la
+     caché dice que la fuente oficial no respondió. Decir «la más reciente» cuando el dato
+     salió del respaldo sería mentir, y esa es la regla número uno del proyecto.
+   - **La hora va congelada**, no corre. Es un sello de «a qué hora se consultó». El reloj que
+     corre segundo a segundo es el de debajo de la píldora, y son cosas distintas.
+   - **No lleva `aria-live` ni `role="status"`** a propósito: la píldora del hero ya anuncia lo
+     mismo y se oiría dos veces seguidas.
+   - La cuenta atrás se **congela con el puntero encima o el foco dentro**. Sin eso el aviso se
+     cerraría en la cara de quien lo está leyendo, y si el foco estaba en el botón de cerrar se
+     perdería a mitad de la navegación por teclado.
+   - En móvil entra desde arriba y ocupa el ancho; desde 700px se va a la derecha (340px).
+   - ⚠ Los 10 s están en **dos sitios**: `CFG.AVISO_MS` y la animación `.aviso-tasa__barra`
+     del CSS (la barrita dorada es la cuenta atrás visible). Si se cambia uno, cambiar el otro.
+
+2. **El consentimiento de cookies ahora caduca de verdad a los 12 meses.**
+   `cookies.html` prometía 12 meses pero el código lo guardaba en `localStorage` sin fecha, o
+   sea para siempre. Ahora se guarda `{v, t}` con sello de fecha y `leerDecision()` lo caduca a
+   los `CFG.CONSENT_DIAS` (365), tras los cuales el banner vuelve a salir. Un texto legal que
+   promete un plazo que el código no cumple es un incumplimiento, no un detalle.
+
+3. **Corregidas las duraciones de `dp_idioma_v1` y `dp_tema_v1`** en `cookies.html`: decían
+   «12 meses» y en realidad duran hasta que se borren los datos del navegador. Ahora lo dice.
+   `dp_tasa_v1` ya era correcto (24 h) y `dp_cookies_v1` pasó a serlo con el punto 2.
+
+4. **Datos de la empresa completados** en las dos legales y el JSON-LD (ver la sección de
+   pendientes). Las tres páginas legales pasaron a «Última actualización: 9 de septiembre
+   de 2026».
+
+5. **Google Analytics retirado por completo, y con él el banner de cookies.** Decisión de JX:
+   siendo una herramienta interna para cuatro áreas, la analítica no aportaba y obligaba a
+   pedir consentimiento previo. Al quitarla, la web **no recoge ningún dato**, así que no hay
+   nada que consentir y el banner sobraba.
+   - Se fue: `cargarAnalytics()`, `evento()` y todas sus llamadas, `iniciarCookies()`,
+     `CFG.GA_ID`, `CFG.COOKIE_KEY`, `CFG.CONSENT_DIAS`, la clave `dp_cookies_v1`, todo el CSS
+     `.cookies*`, el `<aside>` del banner en las seis páginas, el botón «Configuración de
+     cookies» del pie y la clase `js-salida-hotel`.
+   - Se reescribieron `cookies.html` (ahora explica que no hay cookies y qué guarda el
+     navegador) y `privacidad.html` (ahora dice que no se recoge ningún dato; se renumeraron
+     sus apartados de 9 a 8).
+   - Quedan solo tres claves de `localStorage`, todas funcionales: `dp_idioma_v1`,
+     `dp_tema_v1` y `dp_tasa_v1`.
+   - ⚠ **Si JX quiere analítica en el futuro, no basta con volver a meter el script**: hay que
+     reponer el banner, la clave con su caducidad y reescribir las dos legales. Cargar
+     analítica sin consentimiento previo es incumplir la Resolución 32.126.
+
+6. **Dominio definitivo:** `https://hotel.doradoplaza-convertidor.workers.dev/`
+   Sustituido en las 30 URL de `index.html` y `en/index.html` y en `robots.txt`.
+   ⚠ Es Cloudflare **Workers**, no Pages. Workers sí lee `_headers`, pero solo si se despliega
+   como *Worker con static assets* y el archivo está dentro de la carpeta de assets. Está
+   explicado en el propio `_headers`, con el `curl` para comprobarlo tras publicar.
+
+7. **Toda la web pasó a `noindex`** (decisión de JX: es interna).
+   - `noindex, follow` en las seis páginas, más la cabecera `X-Robots-Tag` en `_headers`.
+   - **Retirados `sitemap.xml` y `llms.txt`**, y con ellos la línea `Sitemap:` de `robots.txt`
+     y las etiquetas `<link rel="sitemap">`.
+   - `robots.txt` reescrito. ⚠ **No lleva `Disallow: /` para los buscadores a propósito**, y
+     eso no es un descuido: un `Disallow` impediría que Google entrara a leer el `noindex`, y
+     entonces la URL podría acabar indexada igual desde un enlace externo, sin forma limpia de
+     retirarla. A los bots de IA sí se les bloquea, porque no obedecen `noindex` y robots.txt
+     es el único mecanismo que respetan.
+   - **El Open Graph se conserva**: no sirve para posicionar (eso lo corta el `noindex`), sino
+     para que el enlace se vea decente cuando alguien del hotel lo comparte por chat o correo.
+     La imagen sigue en WebP, sin excepción de JPG: decisión de JX del 9 sep 2026.
+
 ### Cadena de respaldo de la tasa (decisión de diseño importante)
 
 ```
@@ -349,13 +425,35 @@ debe quedarse en blanco si una API se cae.
 
 Ninguno inventado. Todos deben completarse antes de publicar:
 
-| Dato | Dónde aparece |
+**Ya no queda ningún `{POR CONFIRMAR}` en el código.** Los cuatro que había se cerraron el
+9 de septiembre de 2026:
+
+| Dato | Cómo se cerró |
 |---|---|
-| **Dominio definitivo** | `canonical`, `og:url`, `hreflang` de `index.html` y `en/index.html`; `sitemap.xml`; `robots.txt`; `llms.txt`; JSON-LD. Hoy: `convertidor-dorado-plaza.pages.dev` (provisional). |
-| **Razón social** | `privacidad.html`, `terminos.html` |
-| **NIT** | `privacidad.html`, `terminos.html` |
-| **Dirección** | `privacidad.html`, `terminos.html` |
-| **Measurement ID de GA4** | `CFG.GA_ID` en `js/script.js` |
+| **Dominio definitivo** | `https://hotel.doradoplaza-convertidor.workers.dev/` (lo dio JX). |
+| **Measurement ID de GA4** | Ya no aplica: se retiró toda la analítica. |
+| **Razón social / NIT / Dirección** | Buscados en registros públicos y contrastados en dos fuentes (ver abajo). |
+| **Correo de contacto** | `web@doradoplaza.com` (resuelto el 5 sep). |
+
+✅ **Resuelto el 9 sep 2026** — los datos de la empresa ya no están pendientes. Se buscaron en
+registros públicos y se contrastaron en dos fuentes independientes (La República / RUES e
+InformaColombia):
+
+| Dato | Valor |
+|---|---|
+| Razón social | Hoteles Dorado Plaza Colombia S.A.S. |
+| NIT | 901.403.268-5 (el dígito de verificación se calculó y coincide con el publicado) |
+| Dirección | Avenida San Martín (Carrera 2) N.º 4-41, Bocagrande, Cartagena de Indias, Bolívar |
+
+Puestos en: `privacidad.html` (responsable del tratamiento), `terminos.html` (quién ofrece la
+herramienta y titular de la marca), `llms.txt` y el JSON-LD `Organization` de las dos páginas
+del conversor (`legalName`, `taxID` y `address`).
+
+⚠️ **Falta que el cliente los ratifique por escrito.** Son datos de directorios públicos, no del
+certificado de existencia y representación. Dos cosas concretas que confirmar: (1) uno de los
+directorios muestra el estado RUES como «cancelado», que suele ser matrícula no renovada pero
+hay que descartarlo; (2) si la sede de Barranquilla factura con otro NIT, el responsable del
+tratamiento podría no ser esta sociedad. **No publicar las páginas legales sin ese visto bueno.**
 
 ✅ **Resuelto el 5 sep 2026** — el correo de contacto ya no está pendiente:
 `web@doradoplaza.com` (Ejecutiva Comercial), puesto en los pies de las seis páginas, en el

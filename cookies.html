@@ -2,20 +2,22 @@
 <!-- ===========================================================
      CONVERTIDOR USD ⇄ COP — Hoteles Dorado Plaza
      Archivo: cookies.html
-     Qué es: Qué cookies usa el convertidor de divisas de Hoteles Dorado Plaza y cómo aceptarlas o rechazarlas.
+     Qué es: por qué esta herramienta no usa cookies ni analítica, y qué guarda el navegador.
      Función: cumplir con la normativa colombiana y dar transparencia
               al visitante. Comparte diseño con el resto del sitio.
-     Depende de: css/styles.css y js/script.js (solo para el banner
-                 de cookies y el año del copyright).
+     Depende de: css/styles.css y js/script.js (solo para el botón de
+                 tema y el año del copyright).
      =========================================================== -->
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Política de cookies · Convertidor Hoteles Dorado Plaza</title>
-  <meta name="description" content="Qué cookies usa el convertidor de divisas de Hoteles Dorado Plaza y cómo aceptarlas o rechazarlas.">
-  <!-- noindex: las páginas legales no compiten en buscadores, pero sí
-       transmiten autoridad a través de sus enlaces (follow). -->
+  <meta name="description" content="El convertidor de divisas de Hoteles Dorado Plaza no usa cookies ni analítica. Qué guarda el navegador y cómo borrarlo.">
+  <!-- noindex: TODO el sitio va en noindex desde el 9 sep 2026, no solo
+       esta página. Es una herramienta interna del hotel y JX decidió que no
+       aparezca en buscadores. Se deja "follow" porque los enlaces de aquí
+       apuntan a páginas del propio sitio, que también van en noindex. -->
   <meta name="robots" content="noindex, follow">
   <!-- El color de la barra del navegador en móvil. Arranca en blanco
        porque el tema claro es el primordial; el JS lo cambia si el
@@ -90,71 +92,69 @@
     <div class="contenedor">
       <div class="texto__contenido">
         <h1>Política de cookies</h1>
-        <p class="texto__meta">Última actualización: 4 de septiembre de 2026</p>
+        <p class="texto__meta">Última actualización: 9 de septiembre de 2026</p>
 
         <p>
-          Las cookies son pequeños archivos que un sitio guarda en tu dispositivo. En Colombia,
-          la <strong>Resolución 32.126 de 2022 de la Superintendencia de Industria y Comercio</strong>
-          exige que su uso se autorice de forma <strong>previa, expresa e informada</strong>: por eso
-          verás un aviso al entrar y nada se activa hasta que decidas.
+          Las cookies son pequeños archivos que un sitio guarda en tu dispositivo para
+          reconocerte o seguir tu actividad. En Colombia, la
+          <strong>Resolución 32.126 de 2022 de la Superintendencia de Industria y Comercio</strong>
+          exige que su uso se autorice de forma previa, expresa e informada.
+        </p>
+        <p>
+          <strong>Esta herramienta no usa cookies</strong>, así que no hay nada que autorizar
+          y por eso no verás ningún aviso de consentimiento al entrar.
         </p>
 
-        <h2>1. Qué cookies usa esta herramienta</h2>
-
-        <h3>Necesarias (siempre activas)</h3>
+        <h2>1. No hay cookies ni analítica</h2>
         <p>
-          No son cookies propiamente dichas, sino almacenamiento local del navegador. Sin ellas
-          la herramienta no puede recordar lo básico.
+          Esta herramienta <strong>no instala cookies</strong>, no usa Google Analytics ni
+          ninguna otra medición, no crea identificadores de usuario, no hace seguimiento entre
+          sitios y no comparte datos con terceros con fines publicitarios o estadísticos.
+        </p>
+        <p>
+          Tampoco tiene formularios ni registro: no se pide ni se guarda nombre, correo,
+          teléfono ni ningún dato que permita identificar a una persona.
+        </p>
+
+        <h2>2. Qué guarda tu navegador</h2>
+        <p>
+          Lo único que se guarda es <strong>almacenamiento local</strong> (<em>localStorage</em>),
+          que no es una cookie: no viaja en las peticiones al servidor y
+          <strong>nunca sale de tu dispositivo</strong>. Son tres datos, todos funcionales:
         </p>
         <ul>
-          <li><code>dp_cookies_v1</code> — guarda si aceptaste o rechazaste las cookies. Duración: 12 meses.</li>
-          <li><code>dp_idioma_v1</code> — recuerda si elegiste español o inglés. Duración: 12 meses.</li>
-          <li><code>dp_tema_v1</code> — recuerda si elegiste el modo claro o el modo oscuro. Duración: 12 meses.</li>
+          <li><code>dp_idioma_v1</code> — recuerda si elegiste español o inglés. Duración: hasta que borres los datos del navegador.</li>
+          <li><code>dp_tema_v1</code> — recuerda si elegiste el modo claro o el modo oscuro. Duración: hasta que borres los datos del navegador.</li>
           <li><code>dp_tasa_v1</code> — guarda la última tasa consultada para poder mostrarte un valor si te quedas sin conexión. Duración: 24 horas.</li>
         </ul>
-        <p>Esta información no sale de tu dispositivo.</p>
-
-        <h3>De analítica (solo si las aceptas)</h3>
         <p>
-          Google Analytics 4, para saber cuánta gente usa la herramienta y cómo. El script
-          <strong>no se carga</strong> mientras no pulses «Aceptar».
-        </p>
-        <ul>
-          <li><code>_ga</code> — distingue visitantes de forma anónima. Duración: 24 meses.</li>
-          <li><code>_ga_&lt;ID&gt;</code> — mantiene el estado de la sesión. Duración: 24 meses.</li>
-        </ul>
-        <p>La dirección IP se anonimiza antes de almacenarse.</p>
-
-        <h2>2. Cómo aceptarlas o rechazarlas</h2>
-        <p>
-          Al entrar por primera vez aparece un aviso con dos botones del mismo tamaño:
-          <strong>Aceptar</strong> y <strong>Rechazar</strong>. Tu decisión se guarda y no se
-          vuelve a preguntar.
-        </p>
-        <p>
-          Puedes cambiarla cuando quieras desde el enlace
-          <strong>«Configuración de cookies»</strong> que está en el pie de cualquier página
-          de este sitio.
+          Ninguno de los tres identifica a nadie: guardan una preferencia de interfaz y una
+          cifra pública. Son estrictamente necesarios para que la herramienta funcione como se
+          describe, y por eso la norma no exige consentimiento previo para ellos.
         </p>
 
-        <h2>3. Si las rechazas</h2>
+        <h2>3. Cómo borrarlo</h2>
         <p>
-          No pasa nada: el convertidor, las equivalencias rápidas y el historial funcionan
-          exactamente igual. Lo único que no ocurre es la medición estadística.
+          Puedes borrar el almacenamiento local cuando quieras desde la configuración de Chrome,
+          Safari, Firefox o Edge, en el apartado de datos de sitios. Si lo haces, la herramienta
+          seguirá funcionando igual: solo se olvidará del idioma y el tema que habías elegido.
         </p>
 
-        <h2>4. Desde tu navegador</h2>
-        <p>
-          También puedes bloquear o borrar cookies desde la configuración de Chrome, Safari,
-          Firefox o Edge. Ten en cuenta que si borras el almacenamiento local, se te volverá a
-          preguntar por las cookies y se perderán el idioma y el tema que habías elegido.
-        </p>
-
-        <h2>5. Cookies de terceros</h2>
+        <h2>4. Servicios de terceros</h2>
         <p>
           Esta herramienta no incluye publicidad, botones de redes sociales, vídeos incrustados
-          ni mapas embebidos, de modo que no carga cookies de terceros más allá de la analítica
-          descrita arriba.
+          ni mapas embebidos. Los únicos servicios externos que intervienen son los mínimos para
+          que funcione, y ninguno instala cookies en tu dispositivo:
+        </p>
+        <ul>
+          <li><strong>Datos Abiertos Colombia</strong> — de ahí se consulta la TRM oficial del día.</li>
+          <li><strong>ExchangeRate-API</strong> — tasa de respaldo, solo si la fuente oficial no responde.</li>
+          <li><strong>Google Fonts</strong> — tipografías. Al descargarlas, tu navegador contacta con los servidores de Google, que registran la petición en sus propios registros técnicos.</li>
+          <li><strong>Cloudflare</strong> — alojamiento del sitio.</li>
+        </ul>
+        <p>
+          A ninguno de ellos se le envía información tuya: solo se le pide un dato público o un
+          archivo.
         </p>
 
         <p class="texto__meta">
@@ -182,7 +182,7 @@
         <nav aria-labelledby="pie-hotel">
           <h2 id="pie-hotel">Contacto</h2>
           <ul class="pie__lista">
-            <li><a class="js-salida-hotel" href="https://doradoplaza.com/" target="_blank" rel="noopener">doradoplaza.com</a></li>
+            <li><a href="https://doradoplaza.com/" target="_blank" rel="noopener">doradoplaza.com</a></li>
             <li><a href="mailto:web@doradoplaza.com">web@doradoplaza.com</a></li>
             <li><span class="pie__rol">Ejecutiva Comercial</span></li>
           </ul>
@@ -193,7 +193,6 @@
             <li><a href="privacidad.html">Política de privacidad</a></li>
             <li><a href="cookies.html">Política de cookies</a></li>
             <li><a href="terminos.html">Términos y condiciones</a></li>
-            <li><button class="pie__boton js-config-cookies" type="button">Configuración de cookies</button></li>
           </ul>
         </nav>
       </div>
@@ -202,18 +201,6 @@
       </div>
     </div>
   </footer>
-
-  <aside class="cookies" id="cookies" aria-hidden="true" aria-label="Aviso de cookies">
-    <p class="cookies__texto">
-      Usamos cookies de analítica para saber cómo se usa esta herramienta y mejorarla.
-      Puedes aceptarlas o rechazarlas: la conversión funciona igual en ambos casos.
-      Más detalles en la <a href="cookies.html">política de cookies</a>.
-    </p>
-    <div class="cookies__botones">
-      <button class="cookies__btn" id="cookies-rechazar" type="button">Rechazar</button>
-      <button class="cookies__btn cookies__btn--ok" id="cookies-aceptar" type="button">Aceptar</button>
-    </div>
-  </aside>
 
   <script src="js/script.js" defer></script>
 </body>

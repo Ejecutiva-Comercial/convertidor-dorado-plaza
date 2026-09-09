@@ -12,10 +12,11 @@
      4. Conversión y pintado del resultado
      5. Equivalencias rápidas
      6. Historial de 7 días (gráfico SVG)
-     7. Consentimiento de cookies + Google Analytics
+     7. Sin analítica ni cookies de terceros (nota de por qué)
      8. Reloj de consulta (fecha y hora de Colombia, en vivo)
-     9. Tema claro / oscuro
-    10. Arranque
+     9. Aviso de última actualización (panel de la derecha, 10 s)
+    10. Tema claro / oscuro
+    11. Arranque
    Relación con los demás archivos:
      - Usa los IDs que están en index.html / en/index.html.
      - Las clases que agrega (.is-ok, .is-error, .is-visible…) y el
@@ -46,7 +47,6 @@
     // porque la TRM cambia una vez por día hábil.
     CACHE_HORAS:  24,
     CACHE_KEY:    "dp_tasa_v1",
-    COOKIE_KEY:   "dp_cookies_v1",
     IDIOMA_KEY:   "dp_idioma_v1",
     // ⚠ Esta clave está DUPLICADA a propósito en el <script> en línea del
     // <head> de cada HTML (el anti-parpadeo del tema). Si se cambia aquí,
@@ -56,12 +56,16 @@
     // a propósito: si alguien abre esto desde un equipo configurado en otro
     // país, la hora que ve sigue siendo la que vale para la contabilidad.
     ZONA:         "America/Bogota",
+    // Cuánto dura en pantalla el aviso de última actualización antes de
+    // irse solo. Lo pidió JX en 10 segundos. Si se cambia aquí, cambiar
+    // también los 10s de la animación .aviso-tasa__barra en styles.css:
+    // esa barra es la cuenta atrás visible de este mismo temporizador.
+    AVISO_MS:     10000,
     // Montos de la tabla de equivalencias rápidas.
     MONTOS_USD:   [1, 5, 10, 20, 50, 100, 200, 500],
-    MONTOS_COP:   [10000, 50000, 100000, 200000, 500000, 1000000, 2000000, 5000000],
-    // ID de medición de Google Analytics 4.
-    // {POR CONFIRMAR} — cuando JX lo tenga, se reemplaza aquí y nada más.
-    GA_ID:        "{POR CONFIRMAR}"
+    MONTOS_COP:   [10000, 50000, 100000, 200000, 500000, 1000000, 2000000, 5000000]
+    // Aquí iba GA_ID, el identificador de Google Analytics. Se retiró el
+    // 9 sep 2026 junto con toda la analítica: ver el bloque 7.
   };
 
   // Idioma de la página: se lee del <html lang>. La versión inglesa vive
@@ -91,7 +95,19 @@
     etqOrigenUSD:  "Monto (dólares)",
     etqOrigenCOP:  "Monto (pesos colombianos)",
     etqDestinoUSD: "Equivale a (dólares)",
-    etqDestinoCOP: "Equivale a (pesos colombianos)"
+    etqDestinoCOP: "Equivale a (pesos colombianos)",
+    // Aviso de última actualización (el panel de la derecha).
+    // El título y el aria-label de cerrar NO están aquí: son texto fijo
+    // y viven en el HTML de cada idioma, como el resto del proyecto.
+    avVigOficial:"TRM vigente del ",
+    avVigMercado:"Tasa de mercado del ",
+    avVigCache:  "Dato guardado del ",
+    avHora:      "Consultada a las ",
+    avHoraCol:   " (hora de Colombia)",
+    avHoraEq:    " (hora del equipo)",
+    avNotaOK:    "Estás viendo la TRM más reciente publicada en Colombia.",
+    avNotaResp:  "La fuente oficial no respondió. Esta es una tasa de mercado de respaldo.",
+    avNotaCache: "Sin conexión con la fuente. Este es el último dato guardado en este equipo."
   } : {
     cargando:   "Checking today's rate…",
     oficial:    "Official TRM · effective ",
@@ -112,7 +128,18 @@
     etqOrigenUSD:  "Amount (US dollars)",
     etqOrigenCOP:  "Amount (Colombian pesos)",
     etqDestinoUSD: "Equals (US dollars)",
-    etqDestinoCOP: "Equals (Colombian pesos)"
+    etqDestinoCOP: "Equals (Colombian pesos)",
+    // Aviso de última actualización (el panel de la derecha).
+    // El título y el aria-label de cerrar viven en el HTML inglés.
+    avVigOficial:"TRM effective ",
+    avVigMercado:"Market rate from ",
+    avVigCache:  "Saved figure from ",
+    avHora:      "Checked at ",
+    avHoraCol:   " (Colombia time)",
+    avHoraEq:    " (device time)",
+    avNotaOK:    "You are seeing the most recent TRM published in Colombia.",
+    avNotaResp:  "The official source did not respond. This is a fallback market rate.",
+    avNotaCache: "No connection to the source. This is the last figure saved on this device."
   };
 
   var LOCALE = ES ? "es-CO" : "en-US";
@@ -568,70 +595,32 @@
   }
 
   /* =========================================================
-     7. CONSENTIMIENTO DE COOKIES + GOOGLE ANALYTICS
-     Qué hace: muestra el banner, guarda la decisión y SOLO carga GA4
-     si el visitante acepta.
-     Por qué así: la Resolución 32.126 de 2022 de la SIC exige
-     consentimiento previo, expreso e informado. Cargar GA y mostrar
-     el banner de adorno sería incumplir.
+     7. SIN ANALÍTICA NI COOKIES DE TERCEROS  (decisión, 9 sep 2026)
+
+     Aquí vivían Google Analytics 4 y el banner de consentimiento.
+     JX decidió retirarlos: siendo una herramienta interna para cuatro
+     áreas del hotel, la analítica no aportaba nada y obligaba a pedir
+     consentimiento previo bajo la Resolución 32.126 de 2022 de la SIC.
+
+     Al quitarla, esta web **no recoge ningún dato**: no hay scripts de
+     terceros, ni cookies, ni identificadores, ni peticiones a Google
+     más allá de las tipografías. Por eso ya no hay banner que aceptar:
+     no hay nada que consentir.
+
+     Lo único que se sigue guardando es almacenamiento local del propio
+     navegador, estrictamente funcional y que nunca sale del equipo:
+       · dp_idioma_v1 — el idioma elegido
+       · dp_tema_v1   — el tema claro u oscuro elegido
+       · dp_tasa_v1   — la última tasa, para no quedar mudo sin conexión
+     Está declarado en cookies.html y en privacidad.html. Si algún día
+     se añade cualquier clave nueva, hay que declararla ahí también:
+     es obligación legal, no un detalle.
+
+     ⚠ Si en el futuro JX quiere analítica, NO basta con volver a meter
+     el script: hay que reponer el banner de consentimiento, la clave
+     dp_cookies_v1 con su caducidad, y reescribir las dos páginas
+     legales. Cargar analítica sin consentimiento previo es incumplir.
      ========================================================= */
-
-  function cargarAnalytics() {
-    if (window.__gaCargado) return;
-    if (!CFG.GA_ID || CFG.GA_ID.indexOf("POR CONFIRMAR") > -1) return; // sin ID no se carga nada
-    window.__gaCargado = true;
-
-    var s = document.createElement("script");
-    s.async = true;
-    s.src = "https://www.googletagmanager.com/gtag/js?id=" + CFG.GA_ID;
-    document.head.appendChild(s);
-
-    window.dataLayer = window.dataLayer || [];
-    window.gtag = function () { window.dataLayer.push(arguments); };
-    window.gtag("js", new Date());
-    window.gtag("config", CFG.GA_ID, { anonymize_ip: true });
-  }
-
-  /**
-   * Registra un evento en GA4 si está cargado.
-   * Eventos de esta herramienta: conversión hecha, cambio de sentido,
-   * copia del resultado y salida hacia la web del hotel.
-   */
-  function evento(nombre, params) {
-    if (typeof window.gtag === "function") window.gtag("event", nombre, params || {});
-  }
-
-  function iniciarCookies() {
-    var banner = $("#cookies");
-    var btnOk = $("#cookies-aceptar");
-    var btnNo = $("#cookies-rechazar");
-    var btnCfg = document.querySelectorAll(".js-config-cookies");
-    if (!banner) return;
-
-    function decidir(valor) {
-      try { localStorage.setItem(CFG.COOKIE_KEY, valor); } catch (e) {}
-      banner.classList.remove("is-visible");
-      banner.setAttribute("aria-hidden", "true");
-      if (valor === "aceptado") cargarAnalytics();
-    }
-
-    function mostrar() {
-      banner.classList.add("is-visible");
-      banner.setAttribute("aria-hidden", "false");
-    }
-
-    var guardado = null;
-    try { guardado = localStorage.getItem(CFG.COOKIE_KEY); } catch (e) {}
-
-    if (guardado === "aceptado") cargarAnalytics();
-    else if (guardado !== "rechazado") setTimeout(mostrar, 900); // deja ver la página primero
-
-    if (btnOk) btnOk.addEventListener("click", function () { decidir("aceptado"); });
-    if (btnNo) btnNo.addEventListener("click", function () { decidir("rechazado"); });
-    for (var i = 0; i < btnCfg.length; i++) {
-      btnCfg[i].addEventListener("click", function (e) { e.preventDefault(); mostrar(); });
-    }
-  }
 
   /* =========================================================
      8. RELOJ DE CONSULTA
@@ -677,7 +666,117 @@
   }
 
   /* =========================================================
-     9. TEMA CLARO / OSCURO
+     9. AVISO DE ÚLTIMA ACTUALIZACIÓN
+     Qué hace: en cuanto llega la tasa, saca por la derecha un panel con
+     la fecha de vigencia, la hora exacta de consulta y una línea que
+     confirma de dónde salió el dato. A los 10 segundos se va solo.
+     Para qué: quien abre esto para facturar necesita la confirmación
+     explícita de que no está mirando un dato viejo de ayer.
+
+     Por qué el texto cambia según la fuente: si la TRM oficial no
+     respondió y se está usando el respaldo de mercado o la caché, decir
+     "estás viendo la TRM más reciente" sería mentira. El aviso dice
+     siempre la verdad de dónde salió el número, igual que la píldora.
+
+     Dónde: solo en las dos páginas del conversor. Las legales y la 404
+     no tienen el panel y la función se sale sola.
+     ========================================================= */
+
+  var avisoId = null,    // id del temporizador de cierre
+      avisoResta = 0,    // ms que le quedaban al pausar
+      avisoDesde = 0;    // momento en que arrancó el tramo actual
+
+  /** Arranca (o reanuda) la cuenta atrás de cierre. */
+  function programarAviso(ms) {
+    avisoResta = ms;
+    avisoDesde = Date.now();
+    avisoId = setTimeout(ocultarAviso, ms);
+  }
+
+  function ocultarAviso() {
+    var caja = $("#aviso-tasa");
+    if (!caja) return;
+    if (avisoId) { clearTimeout(avisoId); avisoId = null; }
+    avisoResta = 0;
+    caja.classList.remove("is-visible", "is-pausa");
+    caja.setAttribute("aria-hidden", "true");
+  }
+
+  /**
+   * Muestra el aviso con los datos de la tasa que acaba de llegar.
+   * La hora se congela en el momento de la consulta a propósito: esto
+   * es un sello de "a qué hora se consultó", no un reloj. El que corre
+   * segundo a segundo es el de debajo de la píldora.
+   */
+  function mostrarAviso() {
+    var caja = $("#aviso-tasa");
+    if (!caja || !estado.tasa) return;
+
+    var elFecha = $("#aviso-tasa-fecha"),
+        elHora  = $("#aviso-tasa-hora"),
+        elNota  = $("#aviso-tasa-nota");
+    if (!elFecha || !elHora || !elNota) return;
+
+    // Cada fuente tiene su color de punto y su texto. Mismo código de
+    // color que la píldora: verde = oficial, ámbar = respaldo o guardado.
+    var clase, vigencia, nota;
+    if (estado.fuente === "oficial") {
+      clase = "is-ok";       vigencia = T.avVigOficial; nota = T.avNotaOK;
+    } else if (estado.fuente === "mercado") {
+      clase = "is-respaldo"; vigencia = T.avVigMercado; nota = T.avNotaResp;
+    } else {
+      clase = "is-stale";    vigencia = T.avVigCache;   nota = T.avNotaCache;
+    }
+
+    elFecha.textContent = vigencia + fechaLarga(estado.fecha);
+    elHora.textContent  = T.avHora + horaAhora(new Date()) +
+                          (HAY_ZONA ? T.avHoraCol : T.avHoraEq);
+    elNota.textContent  = nota;
+
+    caja.className = "aviso-tasa " + clase;
+    caja.setAttribute("aria-hidden", "false");
+
+    // El navegador necesita ver el elemento ya visible antes de que se
+    // le cambie la clase, o se salta la transición de entrada y aparece
+    // de golpe. Por eso el is-visible va en el cuadro siguiente.
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () { caja.classList.add("is-visible"); });
+    });
+
+    programarAviso(CFG.AVISO_MS);
+  }
+
+  function iniciarAviso() {
+    var caja = $("#aviso-tasa");
+    if (!caja) return;
+
+    var btn = $("#aviso-tasa-cerrar");
+    if (btn) btn.addEventListener("click", ocultarAviso);
+
+    // Con el puntero encima o el foco dentro, la cuenta atrás se congela.
+    // Sin esto el aviso se cerraría mientras alguien lo está leyendo, y
+    // peor: si el foco estaba en el botón de cerrar, se perdería el foco
+    // a mitad de la navegación por teclado.
+    function pausar() {
+      if (!avisoId) return;
+      clearTimeout(avisoId); avisoId = null;
+      avisoResta -= (Date.now() - avisoDesde);
+      caja.classList.add("is-pausa");
+    }
+    function reanudar() {
+      if (avisoId || avisoResta <= 0) return;
+      caja.classList.remove("is-pausa");
+      programarAviso(avisoResta);
+    }
+
+    caja.addEventListener("mouseenter", pausar);
+    caja.addEventListener("mouseleave", reanudar);
+    caja.addEventListener("focusin",  pausar);
+    caja.addEventListener("focusout", reanudar);
+  }
+
+  /* =========================================================
+     10. TEMA CLARO / OSCURO
      Qué hace: gestiona el botón de la cabecera y recuerda la elección.
      Ojo: el tema ya viene puesto desde el <script> en línea del <head>
      de cada HTML, que corre antes de pintar para que no haya un
@@ -731,12 +830,11 @@
     btn.addEventListener("click", function () {
       var seraOscuro = document.documentElement.getAttribute("data-tema") !== "oscuro";
       aplicarTema(seraOscuro ? "oscuro" : "claro", true);
-      evento("cambiar_tema", { tema: seraOscuro ? "oscuro" : "claro" });
     });
   }
 
   /* =========================================================
-     10. ARRANQUE
+     11. ARRANQUE
      Qué hace: engancha los elementos, pide la tasa y deja todo listo.
      Orden pensado a propósito: primero se muestra "consultando",
      luego llega el dato y recién ahí se habilita el resultado.
@@ -770,7 +868,6 @@
           elBtnCopiar.querySelector(".btn-sec__txt").textContent = previo;
           elBtnCopiar.classList.remove("is-hecho");
         }, 1800);
-        evento("copiar_resultado", { sentido: estado.sentido });
       };
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(txt).then(listo).catch(function () {});
@@ -794,7 +891,8 @@
     calcular();
     pintarEquivalencias();
     elMonto.removeAttribute("disabled");
-    evento("tasa_cargada", { fuente: estado.fuente });
+    // El aviso va al final: necesita la fuente y la fecha ya asignadas.
+    mostrarAviso();
   }
 
   function pedirTasa() {
@@ -843,11 +941,10 @@
     var anio = $("#anio");
     if (anio) anio.textContent = new Date().getFullYear();
 
-    // Estos tres van ANTES del corte de abajo, porque también aplican a
+    // Estos dos van ANTES del corte de abajo, porque también aplican a
     // las páginas legales y a la 404: todas llevan cabecera con botón de
-    // tema, selector de idioma y banner de cookies.
+    // tema y selector de idioma.
     iniciarTema();
-    iniciarCookies();
     iniciarIdioma();
 
     // Las páginas legales y la 404 comparten este script pero no tienen
@@ -855,6 +952,10 @@
     if (!elMonto) return;
 
     iniciarReloj();
+    // Se engancha ANTES de pedirTasa(): mostrarAviso() se dispara en
+    // cuanto llega el dato, y para entonces el botón de cerrar y la
+    // pausa por hover ya tienen que estar escuchando.
+    iniciarAviso();
 
     iniciarCopiar();
 
@@ -865,16 +966,7 @@
     });
 
     var btnInv = $("#btn-invertir");
-    if (btnInv) btnInv.addEventListener("click", function () {
-      invertir();
-      evento("invertir_monedas", { sentido: estado.sentido });
-    });
-
-    // Marca el clic hacia la web del hotel como evento de salida.
-    var salidas = document.querySelectorAll(".js-salida-hotel");
-    for (var i = 0; i < salidas.length; i++) {
-      salidas[i].addEventListener("click", function () { evento("clic_web_hotel", {}); });
-    }
+    if (btnInv) btnInv.addEventListener("click", invertir);
 
     pedirTasa();
   }

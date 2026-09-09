@@ -22,15 +22,23 @@
 
   <!-- ===========================================================
        SEO — título, descripción y canonical
-       Ojo: el dominio final está {POR CONFIRMAR}. Mientras tanto se
-       usa la URL provisional de Cloudflare Pages. Cuando JX tenga el
-       dominio, hay que cambiarlo aquí, en en/index.html, en las
-       páginas legales, en sitemap.xml, robots.txt y llms.txt.
+       Dominio definitivo (9 sep 2026):
+         https://hotel.doradoplaza-convertidor.workers.dev/
+       Si algún día cambia, hay que cambiarlo aquí, en en/index.html,
+       en robots.txt y en el ejemplo de curl de _headers.
+
+       ⚠ ESTA WEB VA EN noindex A PROPÓSITO. Es una herramienta interna
+       del hotel y JX decidió que no aparezca en buscadores. Por eso el
+       meta robots de abajo dice "noindex", se retiraron sitemap.xml y
+       llms.txt, y robots.txt bloquea a los bots de IA.
+       El título, la descripción y el Open Graph SÍ se conservan: no
+       sirven para posicionar, sino para que el enlace se vea decente
+       cuando alguien del hotel lo comparte por chat o correo.
        =========================================================== -->
   <title>Convertidor de dólares a pesos colombianos | Hoteles Dorado Plaza</title>
   <meta name="description" content="Consulta la TRM oficial del día y convierte pesos colombianos a dólares y al revés. Herramienta interna de Hoteles Dorado Plaza para sus áreas ejecutiva, comercial y contable.">
   <link rel="canonical" href="https://hotel.doradoplaza-convertidor.workers.dev/">
-  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <meta name="robots" content="noindex, follow">
   <meta name="author" content="Hoteles Dorado Plaza">
   <!-- El color de la barra del navegador en móvil. Arranca en blanco
        porque el tema claro es el primordial; el JS lo cambia si el
@@ -67,10 +75,9 @@
   </script>
 
   <!-- Idiomas: el x-default apunta al español porque es la versión prioritaria -->
-  <link rel="alternate" hreflang="es" href="https://convertidor-dorado-plaza.pages.dev/">
-  <link rel="alternate" hreflang="en" href="https://convertidor-dorado-plaza.pages.dev/en/">
-  <link rel="alternate" hreflang="x-default" href="https://convertidor-dorado-plaza.pages.dev/">
-  <link rel="sitemap" type="application/xml" href="sitemap.xml">
+  <link rel="alternate" hreflang="es" href="https://hotel.doradoplaza-convertidor.workers.dev/">
+  <link rel="alternate" hreflang="en" href="https://hotel.doradoplaza-convertidor.workers.dev/en/">
+  <link rel="alternate" hreflang="x-default" href="https://hotel.doradoplaza-convertidor.workers.dev/">
 
   <!-- Open Graph — vista previa al compartir en WhatsApp, Facebook, etc.
        La URL de la imagen va ABSOLUTA: si es relativa, no se muestra. -->
@@ -80,8 +87,8 @@
   <meta property="og:locale:alternate" content="en_US">
   <meta property="og:title" content="Convertidor de dólares a pesos colombianos | Hoteles Dorado Plaza">
   <meta property="og:description" content="TRM oficial del día y conversión COP ⇄ USD. Herramienta interna de Hoteles Dorado Plaza para sus áreas ejecutiva, comercial y contable.">
-  <meta property="og:url" content="https://convertidor-dorado-plaza.pages.dev/">
-  <meta property="og:image" content="https://convertidor-dorado-plaza.pages.dev/img/og-convertidor-dolar-peso-dorado-plaza.webp">
+  <meta property="og:url" content="https://hotel.doradoplaza-convertidor.workers.dev/">
+  <meta property="og:image" content="https://hotel.doradoplaza-convertidor.workers.dev/img/og-convertidor-dolar-peso-dorado-plaza.webp">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Convertidor de dólares a pesos colombianos de Hoteles Dorado Plaza">
@@ -89,7 +96,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Convertidor de dólares a pesos colombianos | Hoteles Dorado Plaza">
   <meta name="twitter:description" content="TRM oficial del día y conversión COP ⇄ USD para las áreas administrativas de Hoteles Dorado Plaza.">
-  <meta name="twitter:image" content="https://convertidor-dorado-plaza.pages.dev/img/og-convertidor-dolar-peso-dorado-plaza.webp">
+  <meta name="twitter:image" content="https://hotel.doradoplaza-convertidor.workers.dev/img/og-convertidor-dolar-peso-dorado-plaza.webp">
 
   <!-- Geo tags: la cadena opera en Cartagena y Barranquilla, Colombia -->
   <meta name="geo.region" content="CO">
@@ -122,8 +129,8 @@
        Qué incluye: WebSite, la Organización (la cadena hotelera) y
        WebApplication (esto es una herramienta, no una tienda; por eso
        no lleva Product ni Offer).
-       Ojo: los datos marcados {POR CONFIRMAR} deben completarse antes
-       de publicar, nunca inventarse.
+       Los datos de la sociedad (legalName, taxID, address) se
+       completaron el 9 sep 2026 con registros publicos contrastados.
        =========================================================== -->
   <script type="application/ld+json">
   {
@@ -131,20 +138,29 @@
     "@graph": [
       {
         "@type": "WebSite",
-        "@id": "https://convertidor-dorado-plaza.pages.dev/#website",
-        "url": "https://convertidor-dorado-plaza.pages.dev/",
+        "@id": "https://hotel.doradoplaza-convertidor.workers.dev/#website",
+        "url": "https://hotel.doradoplaza-convertidor.workers.dev/",
         "name": "Convertidor USD ⇄ COP · Hoteles Dorado Plaza",
         "inLanguage": "es-CO",
-        "publisher": { "@id": "https://convertidor-dorado-plaza.pages.dev/#organizacion" }
+        "publisher": { "@id": "https://hotel.doradoplaza-convertidor.workers.dev/#organizacion" }
       },
       {
         "@type": "Organization",
-        "@id": "https://convertidor-dorado-plaza.pages.dev/#organizacion",
+        "@id": "https://hotel.doradoplaza-convertidor.workers.dev/#organizacion",
         "name": "Hoteles Dorado Plaza",
+        "legalName": "Hoteles Dorado Plaza Colombia S.A.S.",
+        "taxID": "901.403.268-5",
         "url": "https://doradoplaza.com/",
-        "logo": "https://convertidor-dorado-plaza.pages.dev/img/logo-hoteles-dorado-plaza.webp",
+        "logo": "https://hotel.doradoplaza-convertidor.workers.dev/img/logo-hoteles-dorado-plaza.webp",
         "areaServed": "CO",
         "email": "web@doradoplaza.com",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Avenida San Martín (Carrera 2) N.º 4-41, Bocagrande",
+          "addressLocality": "Cartagena de Indias",
+          "addressRegion": "Bolívar",
+          "addressCountry": "CO"
+        },
         "contactPoint": {
           "@type": "ContactPoint",
           "contactType": "Ejecutiva Comercial",
@@ -155,15 +171,15 @@
       },
       {
         "@type": "WebApplication",
-        "@id": "https://convertidor-dorado-plaza.pages.dev/#app",
+        "@id": "https://hotel.doradoplaza-convertidor.workers.dev/#app",
         "name": "Convertidor de dólares a pesos colombianos",
-        "url": "https://convertidor-dorado-plaza.pages.dev/",
+        "url": "https://hotel.doradoplaza-convertidor.workers.dev/",
         "applicationCategory": "FinanceApplication",
         "operatingSystem": "Todos (navegador web)",
         "inLanguage": ["es-CO", "en-US"],
         "isAccessibleForFree": true,
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "COP" },
-        "publisher": { "@id": "https://convertidor-dorado-plaza.pages.dev/#organizacion" }
+        "publisher": { "@id": "https://hotel.doradoplaza-convertidor.workers.dev/#organizacion" }
       }
     ]
   }
@@ -507,7 +523,7 @@
           <h2 id="pie-hotel">Contacto</h2>
           <ul class="pie__lista">
             <li>
-              <a class="js-salida-hotel" href="https://doradoplaza.com/" target="_blank" rel="noopener">
+              <a href="https://doradoplaza.com/" target="_blank" rel="noopener">
                 doradoplaza.com
               </a>
             </li>
@@ -527,7 +543,6 @@
             <li><a href="privacidad.html">Política de privacidad</a></li>
             <li><a href="cookies.html">Política de cookies</a></li>
             <li><a href="terminos.html">Términos y condiciones</a></li>
-            <li><button class="pie__boton js-config-cookies" type="button">Configuración de cookies</button></li>
           </ul>
         </nav>
       </div>
@@ -544,24 +559,42 @@
   </footer>
 
   <!-- ===========================================================
-       BANNER DE COOKIES
-       Qué es: aviso de consentimiento con Aceptar y Rechazar del
-               mismo peso visual.
-       Función: cumplir la Resolución 32.126 de 2022 de la SIC —
-                en Colombia el consentimiento debe ser previo y
-                expreso. Google Analytics NO se carga hasta aceptar.
-       Depende de: #cookies en css/styles.css y de la función
-                   iniciarCookies() de js/script.js
+       AVISO DE ÚLTIMA ACTUALIZACIÓN
+       Qué es: el panel que entra por la derecha en cuanto llega la
+               tasa, con la fecha de vigencia, la hora exacta de la
+               consulta y una línea que confirma de dónde salió el dato.
+       Función: que quien abre esto para facturar tenga la confirmación
+                explícita de que no está mirando un dato de ayer.
+                Se cierra solo a los 10 segundos.
+       Depende de: .aviso-tasa en css/styles.css y de mostrarAviso()
+                   en js/script.js, que rellena los tres huecos de
+                   abajo y le pone la clase de la fuente.
+       Ojo: los tres <p> vacíos los escribe el JS. Van vacíos y no con
+            texto de ejemplo a propósito: si el JS fallara, es preferible
+            un panel que nunca aparece a uno con una fecha inventada.
+       Ojo 2: esto NO lleva role="status" ni aria-live. La píldora de
+            estado del hero ya anuncia lo mismo a los lectores de
+            pantalla; si este panel también lo anunciara, se oiría el
+            dato dos veces seguidas.
        =========================================================== -->
-  <aside class="cookies" id="cookies" aria-hidden="true" aria-label="Aviso de cookies">
-    <p class="cookies__texto">
-      Usamos cookies de analítica para saber cómo se usa esta herramienta y mejorarla.
-      Puedes aceptarlas o rechazarlas: la conversión funciona igual en ambos casos.
-      Más detalles en la <a href="cookies.html">política de cookies</a>.
-    </p>
-    <div class="cookies__botones">
-      <button class="cookies__btn" id="cookies-rechazar" type="button">Rechazar</button>
-      <button class="cookies__btn cookies__btn--ok" id="cookies-aceptar" type="button">Aceptar</button>
+  <aside class="aviso-tasa" id="aviso-tasa" aria-hidden="true"
+         aria-label="Aviso de última actualización de la tasa">
+    <span class="aviso-tasa__barra" aria-hidden="true"></span>
+    <div class="aviso-tasa__fila">
+      <span class="aviso-tasa__punto" aria-hidden="true"></span>
+      <div class="aviso-tasa__cuerpo">
+        <p class="aviso-tasa__titulo">Última actualización</p>
+        <p class="aviso-tasa__fecha" id="aviso-tasa-fecha"></p>
+        <p class="aviso-tasa__hora"  id="aviso-tasa-hora"></p>
+        <p class="aviso-tasa__nota"  id="aviso-tasa-nota"></p>
+      </div>
+      <button class="aviso-tasa__cerrar" id="aviso-tasa-cerrar" type="button"
+              aria-label="Cerrar el aviso de actualización">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+             stroke-linecap="round" aria-hidden="true">
+          <path d="M18 6 6 18M6 6l12 12"></path>
+        </svg>
+      </button>
     </div>
   </aside>
 
