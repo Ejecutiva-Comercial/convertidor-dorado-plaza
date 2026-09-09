@@ -238,7 +238,8 @@ Si algún día se quiere abrir al público, hay que deshacer los tres puntos de 
 
 ## Datos de la empresa
 
-Ya no queda ningún `{POR CONFIRMAR}` en el proyecto. Los datos publicados son:
+No queda ningún dato pendiente en el proyecto: todos los marcadores que había se completaron.
+Los datos publicados son:
 
 | Dato | Valor |
 |---|---|
