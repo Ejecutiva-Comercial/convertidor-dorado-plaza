@@ -27,7 +27,12 @@ Consecuencias que hay que respetar al escribir cualquier texto nuevo:
 - Nada de lenguaje de atención al huésped, ni de turismo, ni de viaje.
 - El marco es contable: *referencia oficial para facturar*, no *cuánto te van a dar en la
   casa de cambio*.
-- El contacto es **web@doradoplaza.com (Ejecutiva Comercial)**.
+- Hay **dos correos y no son intercambiables**:
+  - **web@doradoplaza.com** (Ejecutiva Comercial) → contacto general. Va en los pies de página
+    y en `terminos.html`.
+  - **syncrono@doradoplaza.com** → protección de datos personales (habeas data, consultas y
+    reclamos de Ley 1581). Va en `privacidad.html`. **Nunca poner el comercial aquí**: desvía
+    solicitudes legales a un buzón que no las tramita, y los plazos de respuesta corren igual.
 
 **Importante — esto NO es una landing de venta.** JX lo dijo expresamente: es un *instrumento*
 funcional, no una pieza comercial. Por eso:
@@ -435,25 +440,28 @@ Ninguno inventado. Todos deben completarse antes de publicar:
 | **Razón social / NIT / Dirección** | Buscados en registros públicos y contrastados en dos fuentes (ver abajo). |
 | **Correo de contacto** | `web@doradoplaza.com` (resuelto el 5 sep). |
 
-✅ **Resuelto el 9 sep 2026** — los datos de la empresa ya no están pendientes. Se buscaron en
-registros públicos y se contrastaron en dos fuentes independientes (La República / RUES e
-InformaColombia):
+✅ **Resuelto y RATIFICADO el 9 sep 2026.** Primero se buscaron en directorios públicos, y
+después **JX aportó la política de privacidad oficial publicada en doradoplaza.com**, que los
+confirma uno por uno. Ya no son datos de terceros: son los que la propia empresa publica.
 
 | Dato | Valor |
 |---|---|
 | Razón social | Hoteles Dorado Plaza Colombia S.A.S. |
-| NIT | 901.403.268-5 (el dígito de verificación se calculó y coincide con el publicado) |
-| Dirección | Avenida San Martín (Carrera 2) N.º 4-41, Bocagrande, Cartagena de Indias, Bolívar |
+| NIT | 901.403.268-5 |
+| Domicilio principal | Cra. 2 Av. San Martín No. 4-41, Barrio Bocagrande, Cartagena de Indias (Bolívar), Colombia |
+| Correo de protección de datos | syncrono@doradoplaza.com |
+| Área responsable | Gestión Humana / Oficial de Protección de Datos Personales |
+| Sitio institucional | www.doradoplaza.com (con canal PQRS para ejercer derechos) |
 
-Puestos en: `privacidad.html` (responsable del tratamiento), `terminos.html` (quién ofrece la
-herramienta y titular de la marca), `llms.txt` y el JSON-LD `Organization` de las dos páginas
-del conversor (`legalName`, `taxID` y `address`).
+Puestos en: `privacidad.html` (responsable del tratamiento y derechos del titular),
+`terminos.html` (quién ofrece la herramienta y titular de la marca) y el JSON-LD `Organization`
+de las dos páginas del conversor (`legalName`, `taxID`, `address` y dos `contactPoint`).
 
-⚠️ **Falta que el cliente los ratifique por escrito.** Son datos de directorios públicos, no del
-certificado de existencia y representación. Dos cosas concretas que confirmar: (1) uno de los
-directorios muestra el estado RUES como «cancelado», que suele ser matrícula no renovada pero
-hay que descartarlo; (2) si la sede de Barranquilla factura con otro NIT, el responsable del
-tratamiento podría no ser esta sociedad. **No publicar las páginas legales sin ese visto bueno.**
+⚠️ **La corrección importante que trajo el documento oficial**: el correo de protección de datos
+**no es `web@doradoplaza.com`**, que es el comercial, sino **`syncrono@doradoplaza.com`**. La
+primera versión de `privacidad.html` usaba el comercial tanto en el apartado del responsable
+como en el de derechos del titular. Estaba mal y se corrigió. Ver la sección «PARA QUIÉN ES»
+para la regla de cuándo usar cada uno.
 
 ✅ **Resuelto el 5 sep 2026** — el correo de contacto ya no está pendiente:
 `web@doradoplaza.com` (Ejecutiva Comercial), puesto en los pies de las seis páginas, en el

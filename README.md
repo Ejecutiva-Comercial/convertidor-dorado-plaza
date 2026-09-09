@@ -245,14 +245,22 @@ Ya no queda ningún `{POR CONFIRMAR}` en el proyecto. Los datos publicados son:
 |---|---|
 | Razón social | Hoteles Dorado Plaza Colombia S.A.S. |
 | NIT | 901.403.268-5 |
-| Dirección | Avenida San Martín (Carrera 2) N.º 4-41, Bocagrande, Cartagena de Indias |
-| Correo | web@doradoplaza.com (Ejecutiva Comercial) |
+| Domicilio principal | Cra. 2 Av. San Martín No. 4-41, Barrio Bocagrande, Cartagena de Indias (Bolívar) |
+| Área responsable | Gestión Humana / Oficial de Protección de Datos Personales |
 
-⚠️ **Estos datos se tomaron de directorios públicos de registro mercantil, no de un certificado
-de existencia y representación.** Aparecen como responsable del tratamiento en la política de
-privacidad, así que **conviene que el hotel los ratifique antes de darlos por definitivos**. Dos
-cosas concretas que confirmar: que la matrícula mercantil esté vigente (un directorio la muestra
-como no renovada) y que la sede de Barranquilla no facture bajo otro NIT.
+✅ **Verificados contra la política de privacidad oficial de doradoplaza.com**, no contra
+directorios de terceros.
+
+### ⚠️ Hay dos correos y no se pueden intercambiar
+
+| Correo | Para qué | Dónde aparece |
+|---|---|---|
+| `syncrono@doradoplaza.com` | **Protección de datos**: habeas data, consultas y reclamos de Ley 1581 | `privacidad.html` |
+| `web@doradoplaza.com` | **Contacto comercial** (Ejecutiva Comercial) | pies de página y `terminos.html` |
+
+Poner el comercial en la política de privacidad desvía solicitudes legales a un buzón que no las
+tramita, y los plazos de respuesta (15 días hábiles) corren igual. Los derechos también se pueden
+ejercer por el **canal PQRS** de www.doradoplaza.com, y así está indicado en la política.
 
 ---
 
