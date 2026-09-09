@@ -530,7 +530,6 @@ p  { margin: 0 0 1em; }
 
 /* Referencias inversas bajo el conversor (1 USD = … / 1 COP = …) */
 .referencias { text-align: center; margin-top: 1.25rem; }
-.dato-pendiente { color: var(--texto-tenue); }
 
 /* ===========================================================
    EQUIVALENCIAS RÁPIDAS
@@ -631,8 +630,7 @@ p  { margin: 0 0 1em; }
 
 /* ===========================================================
    PIE DE PÁGINA
-   Qué es: enlaces legales, enlace a la web del hotel, aviso de
-           copyright y acceso a la configuración de cookies.
+   Qué es: enlaces legales, contacto del hotel y aviso de copyright.
    Función: cerrar el sitio con lo obligatorio y lo institucional.
    Ojo: esta página NO lleva crédito de JX Company — lo pidió JX
         expresamente para este proyecto.
@@ -794,7 +792,13 @@ p  { margin: 0 0 1em; }
 .texto__contenido ul { padding-left: 1.15rem; color: var(--texto-suave); }
 .texto__contenido li { margin-bottom: .45rem; }
 .texto__meta { color: var(--texto-tenue); font-size: var(--t-chico); }
-.marcador { color: var(--alerta); font-weight: 600; }  /* resalta {POR CONFIRMAR} */
+
+/* Aquí vivían .marcador y .dato-pendiente, que resaltaban en ámbar los
+   marcadores de dato pendiente de las páginas legales y del pie. Se
+   retiraron el 9 sep 2026: ya no queda ningún dato pendiente en el
+   proyecto, así que eran reglas que no se aplicaban a nada.
+   (El texto del marcador no se escribe aquí a propósito: buscarlo en el
+   proyecto es la forma de comprobar que no queda ninguno de verdad.) */
 
 .error404 { text-align: center; padding: calc(var(--seccion) * 1.3) 0; }
 .error404__codigo {
