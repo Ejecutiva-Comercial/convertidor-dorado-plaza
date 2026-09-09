@@ -75,7 +75,6 @@ convertidor-dorado-plaza/
 ├── css/styles.css      ← todos los estilos
 ├── js/script.js        ← toda la lógica
 ├── img/                ← logo y og-image en WebP + favicons
-├── CLAUDE.md           ← contexto técnico del proyecto
 └── README.md           ← este archivo
 ```
 
