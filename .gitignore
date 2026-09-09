@@ -42,3 +42,12 @@ npm-debug.log*
 *.old
 *.tmp
 /respaldo-retirados/
+
+# --- Documentación interna: NO se publica ---
+# CLAUDE.md es el contexto de trabajo (decisiones, criterios y notas de
+# proceso). El repositorio es del cliente, así que ese archivo se queda
+# en el equipo y no se sube. El README.md sí se publica: ese es el
+# manual para el cliente.
+# Ojo: .gitignore solo afecta a lo que aún no se está siguiendo. Como
+# este archivo ya estaba subido, hizo falta además "git rm --cached".
+CLAUDE.md
