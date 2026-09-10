@@ -627,6 +627,12 @@ p  { margin: 0 0 1em; }
 }
 .info__tarjeta h3 { color: var(--oro-texto); margin-bottom: .5rem; }
 .info__tarjeta p:last-child { margin-bottom: 0; }
+/* Tarjeta a todo el ancho de la rejilla. Existe por dos motivos: las
+   tarjetas de esta sección son 5 y en 2 columnas la última quedaría
+   suelta con un hueco al lado, y además esa última ("Por qué no coincide
+   con Google") responde la duda más frecuente y merece destacarse.
+   En móvil la rejilla ya es de una columna, así que aquí no cambia nada. */
+.info__tarjeta--ancha { grid-column: 1 / -1; }
 
 /* ===========================================================
    PIE DE PÁGINA

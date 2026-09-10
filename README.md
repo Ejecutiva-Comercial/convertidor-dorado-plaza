@@ -56,6 +56,30 @@ actualice minuto a minuto. Lo que hace esta herramienta es consultar la fuente *
 así que siempre muestra el valor más reciente publicado. Si algún día se quiere una tasa que
 cambie cada hora, hay que contratar un plan pago de un proveedor de datos financieros.
 
+### ⚠️ "En Google me sale otro valor" — no es un error
+
+Es **la duda más frecuente**, y la respuesta corta es que la TRM y lo que muestra Google son
+dos cosas distintas:
+
+| | Qué es | Cada cuánto cambia |
+|---|---|---|
+| **TRM** (lo que muestra esta web) | Promedio oficial de las compras y ventas de dólares del **día hábil anterior** | Una vez al día. Queda congelada 24 h |
+| **Google, Morningstar, apps de bolsa** | El precio del dólar **en el mercado, ahora mismo** | Cada minuto |
+
+Ejemplo real del **10 de septiembre de 2026**: la TRM era **3.099,48** y Google mostraba
+**3.123,00**. Una diferencia de 23,52 pesos, un **0,76%**. Es completamente normal — la TRM de
+ese día reflejaba cómo había cerrado el mercado el día anterior, mientras el dólar seguía
+subiendo durante la jornada.
+
+**Para el hotel, la TRM es la que vale.** La DIAN exige la TRM para facturar y declarar, y la
+contabilidad se registra a la TRM del día. Si la herramienta mostrara el valor de Google, el
+área contable estaría usando una cifra **sin validez oficial para facturar**.
+
+> 🚫 **No cambiar la fuente a una tasa de mercado "para que coincida con Google".** Parece una
+> mejora y es justo lo contrario: rompería el único motivo por el que esta herramienta existe.
+
+Esto también está explicado dentro de la propia web, en la sección *"De dónde sale este número"*.
+
 ---
 
 ## Estructura de archivos
